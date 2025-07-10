@@ -8,6 +8,9 @@ public class User {
     private String address;
     private String phone;
 
+    public User() {
+    }
+
     public User(long id, String email, String passWord, String fullName, String address, String phone) {
         this.id = id;
         this.email = email;
@@ -61,14 +64,14 @@ public class User {
         return phone;
     }
 
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     @Override
     public String toString() {
         return "User [id=" + id + ", email=" + email + ", passWord=" + passWord + ", fullName=" + fullName
                 + ", address=" + address + ", phone=" + phone + "]";
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
 }

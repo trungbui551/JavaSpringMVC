@@ -2,11 +2,12 @@ package com.taplamweb.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
+import com.taplamweb.domain.User;
 import com.taplamweb.service.UserService;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class UserController {
@@ -18,6 +19,7 @@ public class UserController {
 
     @RequestMapping("/trangchu")
     public String getHomePage(Model model) {
+        System.out.println("trangchu is running");
         String test = this.userService.handleHello();
         model.addAttribute("hello", test);
 
@@ -25,8 +27,15 @@ public class UserController {
     }
 
     @RequestMapping("/admin/user")
-    public String getHomePage() {
+    public String getUserPage(Model model) {
+        model.addAttribute("newUser", new User());
         return "admin/user/create";
+    }
+
+    @RequestMapping(value = "/admin/user/create1", method = RequestMethod.POST)
+    public String createUserPage(Model model, @ModelAttribute("newUser") User hoidanit) {
+        System.out.println(hoidanit);
+        return "hello";
     }
 
 }
