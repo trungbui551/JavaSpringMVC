@@ -7,7 +7,7 @@
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Create User</title>
+                <title>Update User</title>
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
                     integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
                     crossorigin="anonymous">
@@ -21,16 +21,21 @@
 
             <body>
 
-                <form:form class="container mx-auto mt-5" style="max-width: 500px;" action="/admin/user/create"
+                <form:form class="container mx-auto mt-5" style="max-width: 500px;" action="/admin/user/update"
                     method="post" modelAttribute="newUser">
                     <div class="mb-3">
-                        <label class="form-label">Email address</label>
-                        <form:input type="email" class="form-control" path="email" />
+                        <label class="form-label" style="display: none;">Id</label>
+                        <form:input type="text" style="display: none;" class="form-control" path="id" />
 
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Password</label>
-                        <form:input type="password" class="form-control" path="passWord" />
+                        <label class="form-label">Email address</label>
+                        <form:input type="email" disabled="true" class="form-control" path="email" />
+
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" style="display:none;">Password</label>
+                        <form:input type="password" style="display:none;" class="form-control" path="passWord" />
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Phone Number:</label>
