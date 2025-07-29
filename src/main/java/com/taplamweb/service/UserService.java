@@ -4,21 +4,23 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.taplamweb.domain.Role;
 import com.taplamweb.domain.User;
+import com.taplamweb.repository.RoleRepository;
 import com.taplamweb.repository.UserRepository;
-
-import jakarta.persistence.Id;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     public String handleHello() {
         return "Hello From Service";
     }
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     public List<User> getAllUsers() {
@@ -40,5 +42,9 @@ public class UserService {
 
     public void deleteAnUser(long id) {
         this.userRepository.deleteById(id);
+    }
+
+    public Role getRoleByName(String name) {
+        return this.roleRepository.findByName(name);
     }
 }

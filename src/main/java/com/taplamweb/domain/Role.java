@@ -59,4 +59,12 @@ public class Role {
         this.description = description;
     }
 
+    public List<User> getUser() {
+        return user;
+    }
+
+    public void setUser(List<User> user) {
+        this.user = user;
+    }
+
 }

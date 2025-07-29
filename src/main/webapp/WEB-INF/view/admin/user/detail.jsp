@@ -24,47 +24,25 @@
                         <main>
                             Manager User
                         </main>
-
-
                         <div class="container mt-5">
                             <div class="row">
                                 <div class="col-12 mx-auto">
                                     <div class="d-flex justify-content-between">
-                                        <h3>Table Users</h3>
+                                        <h3>Detail </h3>
                                         <a href="/admin/user/create" class="btn btn-primary">Create an User</a>
                                     </div>
                                     <hr />
-                                    <table class="table table-hover" class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">ID</th>
-                                                <th scope="col">Email</th>
-                                                <th scope="col">Full Name</th>
-                                                <th scope="col">Action</th>
-                                            </tr>
-
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <c:forEach var="user" items="${users1}">
-                                            <tr>
-                                                <td>${user.id}</td>
-                                                <td>${user.email}</td>
-                                                <td>${user.fullName}</td>
-                                                <td><a href="/admin/user/${user.id}" class="btn btn-success">View</a>
-                                                    <a href="/admin/user/update/${user.id}"
-                                                        class="btn btn-warning mx-2">Update</a>
-                                                    <a href="/admin/user/delete/${user.id}"
-                                                        class="btn btn-danger">Delete</a>
-                                                </td>
-                                            </tr>
-                                            </c:forEach>
-
-
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
+                                    <div class="card" style="width: 60%">
+                                        <div class="card-header">
+                                            User Information
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">ID = ${id}</li>
+                                            <li class="list-group-item">FullName: ${iuser.fullName}</li>
+                                            <li class="list-group-item">Address: ${iuser.address}</li>
+                                            <li class="list-group-item">Phone Number: ${iuser.phone}</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
 
