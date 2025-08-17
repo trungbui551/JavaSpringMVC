@@ -31,17 +31,26 @@
                                         <h3>Detail </h3>
                                         <a href="/admin/user/create" class="btn btn-primary">Create an User</a>
                                     </div>
+
                                     <hr />
                                     <div class="card" style="width: 60%">
                                         <div class="card-header">
-                                            User Information
+                                            <img class="avatar" src="/images/avatar/${iuser.avatar}" /> User Information
+                                            <a class="btn btn-success" href="/images/avatar/${iuser.avatar}">Show
+                                                Avatar</a>
                                         </div>
                                         <ul class="list-group list-group-flush">
-                                            <li class="list-group-item">ID = ${id}</li>
+                                            <li class="list-group-item">ID = ${id} </li>
                                             <li class="list-group-item">FullName: ${iuser.fullName}</li>
                                             <li class="list-group-item">Address: ${iuser.address}</li>
                                             <li class="list-group-item">Phone Number: ${iuser.phone}</li>
+                                            <div class="list-group-item">Role: ${iuser.role.name}
+
+
+
+                                            </div>
                                         </ul>
+
                                     </div>
                                 </div>
                             </div>

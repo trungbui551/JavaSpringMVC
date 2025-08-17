@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import com.taplamweb.service.UploadService;
 import com.taplamweb.service.UserService;
 
 import jakarta.servlet.ServletContext;
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -82,12 +85,17 @@ public class UserController {
     }
 
     @PostMapping("/admin/user/update")
-    public String postUpdateUser(Model model, @ModelAttribute("newUser") User hoidanit) {
+    public String postUpdateUser(Model model, @ModelAttribute("newUser") User hoidanit,
+            @RequestParam("newimg") MultipartFile file) {
         User currentUser = this.userService.getUsersByID(hoidanit.getId());
         if (currentUser != null) {
             currentUser.setAddress(hoidanit.getAddress());
             currentUser.setFullName(hoidanit.getFullName());
             currentUser.setPhone(hoidanit.getPhone());
+            Role role = this.userService.getRoleByName(hoidanit.getRole().getName());
+            String avatarFile = this.uploadService.handleSaverUploadFile(file, "avatar");
+            currentUser.setAvatar(avatarFile);
+            currentUser.setRole(role);
             this.userService.handleSaveUser(currentUser);
         }
         return "redirect:/admin/user";
@@ -108,13 +116,21 @@ public class UserController {
     }
 
     @PostMapping(value = "/admin/user/create")
-    public String createUserPage(Model model, @ModelAttribute("newUser") User hoidanit,
+    public String createUserPage(Model model, @Valid @ModelAttribute("newUser") User hoidanit,
+            BindingResult newUseBindingResult,
             @RequestParam("trungImg") MultipartFile file) {
 
+        List<FieldError> errors = newUseBindingResult.getFieldErrors();
+        for (FieldError e : errors) {
+            System.out.println(">>>>>>" + e.getField() + "-" + e.getDefaultMessage());
+        }
+        if (newUseBindingResult.hasErrors()) {
+            return "admin/user/create";
+        }
         String avatarFile = this.uploadService.handleSaverUploadFile(file, "avatar");
         String passwordEnd = this.passwordEncoder.encode(hoidanit.getPassWord());
         hoidanit.setAvatar(avatarFile);
-        hoidanit.setPassWord(avatarFile);
+        hoidanit.setPassWord(passwordEnd);
         System.out.println("Role: " + hoidanit.getRole().getName());
         // SaveRoles
 

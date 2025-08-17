@@ -1,5 +1,6 @@
 package com.taplamweb.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -7,6 +8,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "products")
@@ -14,12 +19,20 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @NotBlank(message = "Vui long nhap ten san phamr")
     private String name;
+    @NotNull(message = "Phần giá không được để trống")
+    @DecimalMin(value = "1.0", message = "Please Enter a valid Deposit Amount")
     private double price;
     private String image;
+    @NotBlank(message = "Không để trống mục này")
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String detailDesc;
+    @NotBlank(message = "Không để trống mục này")
     private String shortDesc;
+    @Min(value = 0, message = "Vui lòng nhập giá trị hợp lệ")
     private long quantity;
+    @Min(value = 0, message = "Vui lòng nhập giá trị hợp lệ")
     private long sold;
     private String factory;
     private String target;

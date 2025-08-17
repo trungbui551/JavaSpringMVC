@@ -23,14 +23,16 @@
                     <div id="layoutSidenav_content">
 
                         <div>
-                            <h1 class="mt-5">Update User</h1>
+                            <h1 class="mt-5"><img class="avatar" src="/images/avatar/${newUser.avatar}" /> Update User
+                            </h1>
                         </div>
 
                         <hr />
                         <div class="container">
                             <div class="row">
                                 <form:form class="container mx-auto mt-5" style="max-width: 500px;"
-                                    action="/admin/user/update" method="post" modelAttribute="newUser">
+                                    action="/admin/user/update" method="post" modelAttribute="newUser"
+                                    enctype="multipart/form-data">
                                     <div class="mb-3">
                                         <label class="form-label" style="display: none;">Id</label>
                                         <form:input type="text" style="display: none;" class="form-control" path="id" />
@@ -58,10 +60,27 @@
                                         <label class="form-label">Address:</label>
                                         <form:input type="text" class="form-control" path="address" />
                                     </div>
+                                    <form:select class="form-select" path="role.name" id="select">
 
+                                        <option value="ADMIN">ADMIN</option>
+                                        <option value="USER">USER</option>
+                                    </form:select>
+
+                                    <div class="mb-3">
+                                        <label for="avatarFile" class="form-label" class="mb-3 col-12 col-md-6">Upload
+                                            new Avatar
+                                            File</label>
+                                        <input class="form-control" type="file" id="avatarFile"
+                                            accept=".png, jpg, .jpeg" name="newimg">
+                                    </div>
+                                    <div class="mb-3 col-12 col-md-6">
+                                        <img style="max-height: 250px;display: none;" alt="avatarPreview"
+                                            id="avatarPreview" />
+                                    </div>
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </form:form>
-
+                                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+                                <script>$("select").val("${newUser.role.name}")</script>
                             </div>
                         </div>
                         <jsp:include page="../layout/footer.jsp" />
@@ -74,6 +93,17 @@
                 <script src="js/scripts.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
                     crossorigin="anonymous"></script>
+                <script>
+                    $(document).ready(() => {
+                        const avatarFile = $("#avatarFile");
+
+                        avatarFile.change(function (e) {
+                            const imgURL = URL.createObjectURL(e.target.files[0]);
+                            $("#avatarPreview").attr("src", imgURL);
+                            $("#avatarPreview").css({ "display": "block" });
+                        });
+                    });
+                </script>
 
             </body>
 

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.taplamweb.domain.Role;
 import com.taplamweb.domain.User;
+import com.taplamweb.domain.dto.RegisterDTO;
 import com.taplamweb.repository.RoleRepository;
 import com.taplamweb.repository.UserRepository;
 
@@ -46,5 +47,21 @@ public class UserService {
 
     public Role getRoleByName(String name) {
         return this.roleRepository.findByName(name);
+    }
+
+    public User registerDTOtoUser(RegisterDTO registerDTO) {
+        User user = new User();
+        user.setFullName(registerDTO.getFirstName() + registerDTO.getLastName());
+        user.setEmail(registerDTO.getEmail());
+        user.setPassWord((registerDTO.getPassword()));
+        return user;
+    }
+
+    public boolean checkExistsEmail(String Email) {
+        return this.userRepository.existsByEmail(Email);
+    }
+
+    public User getUserByEmail(String email) {
+        return this.userRepository.findOneByEmail(email);
     }
 }

@@ -13158,6 +13158,13 @@ body {
     text-align: center;
 }
 
+.avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
 .datatable-top::after,
 .datatable-bottom::after {
     clear: both;
