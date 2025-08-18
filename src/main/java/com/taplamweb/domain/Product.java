@@ -1,5 +1,7 @@
 package com.taplamweb.domain;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
@@ -32,10 +35,28 @@ public class Product {
     private String shortDesc;
     @Min(value = 0, message = "Vui lòng nhập giá trị hợp lệ")
     private long quantity;
+
+    public List<CartDetail> getCartDetail() {
+        return cartDetail;
+    }
+
+    public void setCartDetail(List<CartDetail> cartDetail) {
+        this.cartDetail = cartDetail;
+    }
+
     @Min(value = 0, message = "Vui lòng nhập giá trị hợp lệ")
     private long sold;
+
+    public Product(@Min(value = 0, message = "Vui lòng nhập giá trị hợp lệ") long sold, List<CartDetail> cartDetail) {
+        this.sold = sold;
+        this.cartDetail = cartDetail;
+    }
+
     private String factory;
     private String target;
+
+    @OneToMany(mappedBy = "product")
+    private List<CartDetail> cartDetail;
 
     public long getId() {
         return id;

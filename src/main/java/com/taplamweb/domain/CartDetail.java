@@ -1,0 +1,78 @@
+package com.taplamweb.domain;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "cart_detail")
+public class CartDetail {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private long quality;
+    private double price;
+    @ManyToOne
+    @JoinColumn(name = "card_id")
+    private Cart cart;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    public CartDetail(long id, long quality, double price, Cart cart, Product product) {
+        this.id = id;
+        this.quality = quality;
+        this.price = price;
+        this.cart = cart;
+        this.product = product;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getQuality() {
+        return quality;
+    }
+
+    public void setQuality(long quality) {
+        this.quality = quality;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public CartDetail() {
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+}
