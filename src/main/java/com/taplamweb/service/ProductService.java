@@ -13,6 +13,8 @@ import com.taplamweb.repository.CartDetailRepository;
 import com.taplamweb.repository.CartRepository;
 import com.taplamweb.repository.ProductRepository;
 
+import jakarta.servlet.http.HttpSession;
+
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
@@ -41,7 +43,7 @@ public class ProductService {
         return this.productRepository.findById(id);
     }
 
-    public void handleAddProductToCart(String email, Long proId) {
+    public void handleAddProductToCart(String email, Long proId, HttpSession session) {
         User user = this.userService.getUserByEmail(email);
         if (user != null) {
             // check user da co cart hay chua
@@ -51,7 +53,7 @@ public class ProductService {
                 Cart meCart = new Cart();
                 meCart.setId(proId);
                 meCart.setUser(user);
-                meCart.setSum(1);
+                meCart.setSum(0);
                 cart = this.cartRepository.save(meCart);
 
             }
@@ -62,14 +64,36 @@ public class ProductService {
             Optional<Product> productOp = this.productRepository.findById(proId);
             if (productOp.isPresent()) {
                 Product product = productOp.get();
-                CartDetail cartDetail = new CartDetail();
-                cartDetail.setCart(cart);
-                cartDetail.setProduct(product);
-                cartDetail.setPrice(product.getPrice());
-                cartDetail.setQuality(1);
-                this.cartDetailRepository.save(cartDetail);
+                // check san pham da tung duoc them vao gio hang day hay chua
+                CartDetail oldCartDetail = this.cartDetailRepository.findByCartAndProduct(cart, product);
+                if (oldCartDetail == null) {
+                    oldCartDetail = new CartDetail();
+                    oldCartDetail.setCart(cart);
+                    oldCartDetail.setProduct(product);
+                    oldCartDetail.setPrice(product.getPrice());
+                    oldCartDetail.setQuantity(1);
+                    int s = cart.getSum() + 1;
+
+                    cart.setSum(s);
+
+                    this.cartRepository.save(cart);
+                    this.cartDetailRepository.save(oldCartDetail);
+                    session.setAttribute("sum", s);
+                } else {
+                    oldCartDetail.setQuantity(oldCartDetail.getQuantity() + 1);
+                    this.cartDetailRepository.save(oldCartDetail);
+                }
+
             }
 
         }
+    }
+
+    public Cart getCartByUser(User user) {
+        return this.cartRepository.findByUser(user);
+    }
+
+    public List<CartDetail> getCartDetailsByCart(Cart cart) {
+        return this.cartDetailRepository.findByCart(cart);
     }
 }
