@@ -35,7 +35,7 @@
                 <link href="/client/css/style.css" rel="stylesheet">
             </head>
 
-            <body>
+            <body style="padding-top:70px;">
 
                 <!-- Spinner Start -->
                 <div id="spinner"
@@ -75,16 +75,7 @@
                 <!-- Modal Search End -->
 
 
-                <!-- Single Page Header start -->
-                <div class="container-fluid page-header py-5">
-                    <h1 class="text-center text-white display-6">Shop Detail</h1>
-                    <ol class="breadcrumb justify-content-center mb-0">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                        <li class="breadcrumb-item active text-white">Shop Detail</li>
-                    </ol>
-                </div>
-                <!-- Single Page Header End -->
+
 
 
                 <!-- Single Product Start -->
@@ -130,9 +121,17 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        <a href="#"
-                                            class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i
-                                                class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                        <form action="/add-product-to-cart/${pro.id}" method="post">
+                                            <div>
+                                                <input type="hidden" name="${_csrf.parameterName}"
+                                                    value="${_csrf.token}" />
+
+                                            </div>
+                                            <button
+                                                class="btn border border-secondary rounded-pill px-3 text-primary"><i
+                                                    class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                Add to cart</button>
+                                        </form>
                                     </div>
                                     <div class="col-lg-12">
                                         <nav>
@@ -306,8 +305,7 @@
 
                                     <div class="col-lg-12">
                                         <div class="position-relative">
-                                            <img src="/client/img/banner-fruits.jpg" class="img-fluid w-100 rounded"
-                                                alt="">
+                                            <img src="/client/img/banner1.jpg" class="img-fluid w-100 rounded" alt="">
                                             <div class="position-absolute"
                                                 style="top: 50%; right: 10px; transform: translateY(-50%);">
                                                 <h3 class="text-secondary fw-bold">Fresh <br> Fruits <br> Banner</h3>
@@ -342,10 +340,17 @@
                                                     <fmt:formatNumber type="number" value="${pro.price}" /> đ
                                                 </h5>
                                                 </p>
-                                                <a href="#"
-                                                    class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i
-                                                        class="fa fa-shopping-bag me-2 text-primary"></i> Add to
-                                                    cart</a>
+                                                <form action="/add-product-to-cart/${pro.id}" method="post">
+                                                    <div>
+                                                        <input type="hidden" name="${_csrf.parameterName}"
+                                                            value="${_csrf.token}" />
+
+                                                    </div>
+                                                    <button
+                                                        class="btn border border-secondary rounded-pill px-3 text-primary"><i
+                                                            class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                        Add to cart</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>

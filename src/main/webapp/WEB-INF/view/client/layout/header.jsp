@@ -30,11 +30,7 @@
                         <div class="navbar-nav ">
                             <a href="/" class="nav-item nav-link active">Home</a>
                             <a href="shop.html" class="nav-item nav-link">Sản Phẩm</a>
-
-
-
                         </div>
-
 
                         <div class="d-flex m-3 me-0">
                             <c:if test="${not empty pageContext.request.userPrincipal}">
@@ -50,8 +46,9 @@
                                         <i class="fas fa-user fa-2x"></i>
                                     </a>
 
-                                    <ul class="dropdown-menu dropdown-menu-end p-4" aria-labelledby="dropdownMenuLink">
-                                        <li class="d-flex align-items-center flex-column" style="min-width: 300px;">
+                                    <ul class="dropdown-menu  dropdown-menu-lg-end p-4"
+                                        style="min-width: 250px; max-width: 90vw;" aria-labelledby="dropdownMenuLink">
+                                        <li class="d-flex align-items-center flex-column" style="width: 100%;">
                                             <img style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden;"
                                                 src="/images/avatar/${sessionScope.images}" />
                                             <div class="text-center my-3">
@@ -78,9 +75,6 @@
                                 <a href="/login" class="position-relative me-4 my-auto">Đăng Nhập</a>
                             </c:if>
                         </div>
-
-
-
                     </div>
             </div>
             </nav>
