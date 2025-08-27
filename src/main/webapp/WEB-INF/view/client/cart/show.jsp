@@ -233,15 +233,24 @@
                         </div>
                     </div>
                     <script>
+
                         function calculateTotal() {
                             // Lấy giá trị text trong span
-                            let subtotal = document.getElementById(" subtotal").innerText; let
-                                shipping = document.getElementById("shipping").innerText; // Bỏ dấu phẩy nếu có, và convert sang số 
-                            subtotal = parseFloat(subtotal.replace(/,/g, ""));
-                            shipping = parseFloat(shipping.replace(/,/g, "")); // Tính tổng let total=subtotal +
-                            shipping; // Hiển thị ra ô Total
-                            document.getElementById("total").innerText = total.toLocaleString() + " đ";
-                        } // Gọi hàm khi load trang 
+                            let subtotal = document.getElementById("subtotal").innerText;
+                            let shipping = document.getElementById("shipping").innerText;
+
+                            // Bỏ dấu phẩy và ký tự "đ" nếu có, sau đó convert sang số
+                            subtotal = parseFloat(subtotal.replace(/[,đ\s]/g, "")) || 0;
+                            shipping = parseFloat(shipping.replace(/[,đ\s]/g, "")) || 0;
+
+                            // Tính tổng
+                            let total = subtotal + shipping;
+
+                            // Hiển thị ra ô Total với định dạng số và thêm "đ"
+                            document.getElementById("total").innerText = total.toLocaleString('vi-VN') + " đ";
+                        }
+
+                        // Gọi hàm khi load trang
                         window.onload = calculateTotal; </script>
                     <!-- Cart Page End -->
 

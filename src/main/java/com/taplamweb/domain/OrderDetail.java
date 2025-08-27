@@ -18,6 +18,9 @@ public class OrderDetail {
     private double price;
 
     @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+    @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
@@ -61,7 +64,4 @@ public class OrderDetail {
         this.product = product;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
 }

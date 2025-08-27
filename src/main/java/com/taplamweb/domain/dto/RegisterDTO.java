@@ -8,6 +8,7 @@ public class RegisterDTO {
     private String lastName;
     private String password;
     private String email;
+    private String repeatPassword;
 
     public String getFirstName() {
         return firstName;
@@ -52,5 +53,4 @@ public class RegisterDTO {
         this.repeatPassword = repeatPassword;
     }
 
-    private String repeatPassword;
 }

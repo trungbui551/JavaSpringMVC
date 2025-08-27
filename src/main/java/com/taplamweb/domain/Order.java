@@ -18,6 +18,7 @@ public class Order {
     private String receiverAddress;
     private String receiverPhone;
     private String status;
+    private String receiverName;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -65,8 +66,6 @@ public class Order {
     public String toString() {
         return "Order [id=" + id + ", totalPrice=" + totalPrice + "]";
     }
-
-    private String receiverName;
 
     public String getReceiverName() {
         return receiverName;
