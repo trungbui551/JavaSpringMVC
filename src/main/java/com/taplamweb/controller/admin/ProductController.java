@@ -3,6 +3,8 @@ package com.taplamweb.controller.admin;
 import java.util.List;
 
 import org.eclipse.tags.shaded.org.apache.xpath.operations.Mod;
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +22,8 @@ import com.taplamweb.domain.Role;
 import com.taplamweb.service.ProductService;
 import com.taplamweb.service.UploadService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -64,10 +68,18 @@ public class ProductController {
     }
 
     @GetMapping("/admin/product")
-    public String getProductManagerPage(Model model) {
-        List<Product> pros = this.productService.getAllProducts();
+    public String getProductManagerPage(Model model, @Param("keyword") String keyword,
+            @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo) {
+        Page<Product> pros = this.productService.getALL(pageNo);
+        if (keyword != null) {
+            pros = this.productService.searchProduct(keyword, pageNo);
+            model.addAttribute("keyword", keyword);
+        }
+        int totalPages = pros.getTotalPages();
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", pageNo);
 
-        model.addAttribute("pros", pros);
+        model.addAttribute("pros", pros.getContent());
         return "admin/product/show";
     }
 
@@ -79,6 +91,18 @@ public class ProductController {
         model.addAttribute("id", id);
         return "admin/product/update";
     }
+
+    // @PostMapping("/place-order")
+    // public String handlePlaceOrder(
+    // HttpServletRequest request,
+    // @RequestParam("receiverName") String receiverName,
+    // @RequestParam("receiverAddress") String receiverAddress,
+    // @RequestParam("receiverPhone") String receiverPhone) {
+
+    // HttpSession session = request.getSession(false);
+
+    // return "redirect:/";
+    // }
 
     @PostMapping("/admin/product/update")
     public String postUpdateProduct(Model model, @ModelAttribute("product") Product hoidanit,

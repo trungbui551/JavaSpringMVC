@@ -3,6 +3,10 @@ package com.taplamweb.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -135,18 +139,6 @@ public class ProductService {
 
     }
 
-    @PostMapping("/place-order")
-    public String handlePlaceOrder(
-            HttpServletRequest request,
-            @RequestParam("receiverName") String receiverName,
-            @RequestParam("receiverAddress") String receiverAddress,
-            @RequestParam("receiverPhone") String receiverPhone) {
-
-        HttpSession session = request.getSession(false);
-
-        return "redirect:/";
-    }
-
     public void handlePlaceOrder(User user, HttpSession session, String receriverName, String receiverPhone,
             String receiverAddress, Double totalPrice) {
 
@@ -182,5 +174,21 @@ public class ProductService {
         }
         // update session
         session.setAttribute("sum", 0);
+    }
+
+    public Page<Product> getALL(Integer pageNo) {
+        Pageable pageable = PageRequest.of(pageNo - 1, 2);
+        return this.productRepository.findAll(pageable);
+    }
+
+    public Page<Product> searchProduct(String keyword, Integer pageNo) {
+        List<Product> list = this.productRepository.findByNameContainingIgnoreCase(keyword);
+        Pageable pageable = PageRequest.of(pageNo - 1, 2);
+        Integer start = (int) pageable.getOffset();
+        Integer end = (int) ((pageable.getOffset() + pageable.getPageSize()) > list.size() ? list.size()
+                : (pageable.getOffset() + pageable.getPageSize()));
+        list = list.subList(start, end);
+        return new PageImpl<Product>(list, pageable,
+                this.productRepository.findByNameContainingIgnoreCase(keyword).size());
     }
 }

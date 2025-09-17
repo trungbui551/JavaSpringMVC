@@ -2,6 +2,7 @@ package com.taplamweb.domain;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -54,10 +55,14 @@ public class User {
 
     @OneToOne(mappedBy = "user")
     private Cart cart;
+    @Column(name = "enabled")
+    private boolean enabled;
 
-    // role id
     public User() {
+        super();
+        this.enabled = false;
     }
+    // role id
 
     public User(long id, String email, String passWord, String fullName, String address, String phone) {
         this.id = id;
@@ -144,6 +149,14 @@ public class User {
     public String toString() {
         return "User [id=" + id + ", email=" + email + ", passWord=" + passWord + ", fullName=" + fullName
                 + ", address=" + address + ", phone=" + phone + ", avatar=" + avatar + "]";
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
 }

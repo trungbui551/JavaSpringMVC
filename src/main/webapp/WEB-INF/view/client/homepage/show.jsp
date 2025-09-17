@@ -6,6 +6,73 @@
 
             <head>
                 <style>
+                    /* CSS Fix cho Pagination - Phù hợp với LapTopShop */
+                    .pagination {
+                        display: flex !important;
+                        padding-left: 0 !important;
+                        list-style: none !important;
+                        border-radius: 8px !important;
+                        margin: 20px 0 !important;
+                        justify-content: center !important;
+                    }
+
+                    .page-item {
+                        display: inline-block !important;
+                        margin: 0 2px !important;
+                    }
+
+                    .page-link {
+                        position: relative !important;
+                        display: block !important;
+                        padding: 8px 12px !important;
+                        line-height: 1.25 !important;
+                        color: #666 !important;
+                        text-decoration: none !important;
+                        background-color: #fff !important;
+                        border: 1px solid #ddd !important;
+                        border-radius: 6px !important;
+                        transition: all 0.3s ease !important;
+                        font-weight: 500 !important;
+                    }
+
+                    .page-item:first-child .page-link {
+                        margin-left: 0 !important;
+                    }
+
+                    .page-item:last-child .page-link {}
+
+                    .page-link:hover {
+                        z-index: 2 !important;
+                        color: #fff !important;
+                        text-decoration: none !important;
+                        background-color: #8BC34A !important;
+                        border-color: #8BC34A !important;
+                        transform: translateY(-1px) !important;
+                        box-shadow: 0 2px 4px rgba(139, 195, 74, 0.3) !important;
+                    }
+
+                    .page-item.active .page-link {
+                        z-index: 3 !important;
+                        color: #fff !important;
+                        background-color: #4CAF50 !important;
+                        border-color: #4CAF50 !important;
+                        box-shadow: 0 2px 6px rgba(76, 175, 80, 0.4) !important;
+                        font-weight: 600 !important;
+                    }
+
+                    /* Styling đặc biệt cho Previous/Next */
+                    .page-item .page-link[href*="Previous"],
+                    .page-item .page-link[href*="Next"] {
+                        font-weight: 600 !important;
+                        color: #4CAF50 !important;
+                    }
+
+                    .page-item .page-link[href*="Previous"]:hover,
+                    .page-item .page-link[href*="Next"]:hover {
+                        background-color: #4CAF50 !important;
+                        color: #fff !important;
+                    }
+
                     .card-img-top {
                         width: 100%;
                         height: 200px;
@@ -145,7 +212,13 @@
                                                             </div>
                                                         </div>
                                                     </c:forEach>
+
+
                                                 </tr>
+
+
+
+
                                             </div>
                                         </div>
                                     </div>
@@ -155,9 +228,41 @@
 
 
                             </div>
+
                         </div>
                     </div>
                 </div>
+
+
+                <ul class="pagination justify-content-center" style="display: flex; list-style: none; padding: 0;">
+                    <!-- Nút Previous -->
+                    <c:if test="${currentPage > 1}">
+                        <li class="page-item" style="display: inline-block;">
+                            <a class="page-link" href="?pageNo=${currentPage - 1}"
+                                style="padding: 0.5rem 0.75rem; border: 1px solid #dee2e6; text-decoration: none; background: white; color: #007bff;">Previous</a>
+                        </li>
+                    </c:if>
+
+                    <!-- Các số trang -->
+                    <c:forEach var="i" begin="1" end="${totalPages}">
+                        <li class="page-item ${currentPage == i ? 'active' : ''}" style="display: inline-block;">
+                            <a class="page-link"
+                                href="?${not empty keyword ? 'keyword='.concat(keyword).concat('&') : ''}pageNo=${i}"
+                                style="padding: 0.5rem 0.75rem; border: 1px solid #dee2e6; text-decoration: none; margin-left: -1px; ${currentPage == i ? 'background: #007bff; color: white;' : 'background: white; color: #007bff;'}">${i}</a>
+                        </li>
+                    </c:forEach>
+
+                    <!-- Nút Next -->
+                    <c:if test="${currentPage < totalPages}">
+                        <li class="page-item" style="display: inline-block;">
+                            <a class="page-link" href="?pageNo=${currentPage + 1}"
+                                style="padding: 0.5rem 0.75rem; border: 1px solid #dee2e6; text-decoration: none; background: white; color: #007bff;">Next</a>
+                        </li>
+                    </c:if>
+                </ul>
+
+
+
                 <!-- Fruits Shop End-->
 
 

@@ -18,18 +18,15 @@
                 body {
                     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                     line-height: 1.6;
-                    background: linear-gradient(135deg, #f0f9f0 0%, #e8f5e8 100%);
+                    background: linear-gradient(135deg, #f6fdeb 0%, #ecf9e0 100%);
                     min-height: 100vh;
                 }
 
-                /* Header Section - Để trống cho code riêng */
                 .header {
                     background: #fff;
                     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                    /* Để trống để inner code */
                 }
 
-                /* Main Thank You Content */
                 .thank-you-container {
                     max-width: 800px;
                     margin: 60px auto;
@@ -39,13 +36,13 @@
                 .thank-you-card {
                     background: #fff;
                     border-radius: 20px;
-                    box-shadow: 0 20px 60px rgba(34, 139, 34, 0.15);
+                    box-shadow: 0 20px 60px rgba(139, 200, 21, 0.2);
                     overflow: hidden;
                     position: relative;
                 }
 
                 .card-header {
-                    background: linear-gradient(135deg, #228B22 0%, #32CD32 100%);
+                    background: linear-gradient(135deg, #8BC815 0%, #A1DA40 100%);
                     color: white;
                     padding: 40px 30px;
                     text-align: center;
@@ -60,7 +57,7 @@
                     left: -50%;
                     width: 200%;
                     height: 200%;
-                    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+                    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
                     animation: shimmer 3s ease-in-out infinite;
                 }
 
@@ -139,7 +136,6 @@
                     font-size: 2.5em;
                     font-weight: 700;
                     margin-bottom: 10px;
-                    position: relative;
                 }
 
                 .thank-you-subtitle {
@@ -153,11 +149,11 @@
                 }
 
                 .order-info {
-                    background: linear-gradient(135deg, #f8fdf8 0%, #f0f9f0 100%);
+                    background: linear-gradient(135deg, #f9fdf3 0%, #f3fae8 100%);
                     border-radius: 15px;
                     padding: 30px;
                     margin-bottom: 30px;
-                    border: 2px solid #e8f5e8;
+                    border: 2px solid #d8f0c0;
                 }
 
                 .order-number {
@@ -166,7 +162,7 @@
                 }
 
                 .order-number h3 {
-                    color: #228B22;
+                    color: #7AB512;
                     font-size: 1.3em;
                     margin-bottom: 5px;
                 }
@@ -174,13 +170,13 @@
                 .order-id {
                     font-size: 1.8em;
                     font-weight: 700;
-                    color: #2d5a2d;
+                    color: #5e8d10;
                     font-family: 'Courier New', monospace;
                     background: #fff;
                     padding: 10px 20px;
                     border-radius: 8px;
                     display: inline-block;
-                    border: 2px dashed #228B22;
+                    border: 2px dashed #8BC815;
                 }
 
                 .info-grid {
@@ -206,7 +202,7 @@
                 .info-icon {
                     width: 50px;
                     height: 50px;
-                    background: linear-gradient(135deg, #228B22, #32CD32);
+                    background: linear-gradient(135deg, #8BC815, #A1DA40);
                     border-radius: 50%;
                     display: flex;
                     align-items: center;
@@ -218,7 +214,7 @@
 
                 .info-title {
                     font-weight: 600;
-                    color: #2d5a2d;
+                    color: #5e8d10;
                     margin-bottom: 5px;
                 }
 
@@ -235,7 +231,7 @@
                 }
 
                 .next-steps h3 {
-                    color: #228B22;
+                    color: #7AB512;
                     margin-bottom: 20px;
                     font-size: 1.4em;
                     display: flex;
@@ -264,7 +260,7 @@
                 }
 
                 .step-number {
-                    background: linear-gradient(135deg, #228B22, #32CD32);
+                    background: linear-gradient(135deg, #8BC815, #A1DA40);
                     color: white;
                     width: 30px;
                     height: 30px;
@@ -278,13 +274,9 @@
                     font-size: 0.9em;
                 }
 
-                .step-content {
-                    flex: 1;
-                }
-
                 .step-title {
                     font-weight: 600;
-                    color: #2d5a2d;
+                    color: #5e8d10;
                     margin-bottom: 5px;
                 }
 
@@ -314,24 +306,24 @@
                 }
 
                 .btn-primary {
-                    background: linear-gradient(135deg, #228B22, #32CD32);
+                    background: linear-gradient(135deg, #8BC815, #A1DA40);
                     color: white;
-                    box-shadow: 0 5px 15px rgba(34, 139, 34, 0.3);
+                    box-shadow: 0 5px 15px rgba(139, 200, 21, 0.3);
                 }
 
                 .btn-primary:hover {
                     transform: translateY(-2px);
-                    box-shadow: 0 8px 25px rgba(34, 139, 34, 0.4);
+                    box-shadow: 0 8px 25px rgba(139, 200, 21, 0.4);
                 }
 
                 .btn-secondary {
                     background: #fff;
-                    color: #228B22;
-                    border: 2px solid #228B22;
+                    color: #8BC815;
+                    border: 2px solid #8BC815;
                 }
 
                 .btn-secondary:hover {
-                    background: #228B22;
+                    background: #8BC815;
                     color: #fff;
                     transform: translateY(-2px);
                 }
@@ -340,12 +332,12 @@
                     text-align: center;
                     margin-top: 30px;
                     padding: 20px;
-                    background: linear-gradient(135deg, #f8fdf8 0%, #f0f9f0 100%);
+                    background: linear-gradient(135deg, #f9fdf3 0%, #f3fae8 100%);
                     border-radius: 12px;
                 }
 
                 .contact-info h4 {
-                    color: #228B22;
+                    color: #7AB512;
                     margin-bottom: 10px;
                 }
 
@@ -354,15 +346,12 @@
                     margin: 5px 0;
                 }
 
-                /* Footer Section - Để trống cho code riêng */
                 .footer {
-                    background: #2d5a2d;
+                    background: #5e8d10;
                     color: white;
                     margin-top: 60px;
-                    /* Để trống để inner code */
                 }
 
-                /* Responsive Design */
                 @media (max-width: 768px) {
                     .thank-you-container {
                         margin: 30px auto;
@@ -402,13 +391,12 @@
                     }
                 }
 
-                /* Loading animation for dynamic content */
                 .loading {
                     display: inline-block;
                     width: 20px;
                     height: 20px;
                     border: 3px solid #f3f3f3;
-                    border-top: 3px solid #228B22;
+                    border-top: 3px solid #8BC815;
                     border-radius: 50%;
                     animation: spin 1s linear infinite;
                 }
@@ -423,29 +411,13 @@
                     }
                 }
             </style>
+            <link href="/client/css/bootstrap.min.css" rel="stylesheet">
+            <link href="/client/css/style.css" rel="stylesheet">
         </head>
 
         <body>
-
-
             <jsp:include page="../layout/header.jsp" />
 
-
-            <!-- JavaScript Libraries -->
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="/client/lib/easing/easing.min.js"></script>
-            <script src="/client/lib/waypoints/waypoints.min.js"></script>
-            <script src="/client/lib/lightbox/js/lightbox.min.js"></script>
-            <script src="/client/lib/owlcarousel/owl.carousel.min.js"></script>
-
-            <!-- Customized Bootstrap Stylesheet -->
-            <link href="/client/css/bootstrap.min.css" rel="stylesheet">
-
-            <!-- Template Stylesheet -->
-            <link href="/client/css/style.css" rel="stylesheet">
-            <!-- Template Javascript -->
-            <script src="/client/js/main.js"></script>
 
             <!-- Main Thank You Content -->
             <main class="thank-you-container">
@@ -497,8 +469,7 @@
                                     <div class="step-content">
                                         <div class="step-title">Xác nhận đơn hàng</div>
                                         <div class="step-description">Chúng tôi sẽ xử lý và xác nhận đơn hàng của bạn
-                                            trong vòng
-                                            30 phút</div>
+                                            trong vòng 30 phút</div>
                                     </div>
                                 </li>
                                 <li>
@@ -506,8 +477,7 @@
                                     <div class="step-content">
                                         <div class="step-title">Chuẩn bị hàng hóa</div>
                                         <div class="step-description">Sản phẩm sẽ được đóng gói cẩn thận và chuẩn bị để
-                                            giao
-                                            hàng</div>
+                                            giao hàng</div>
                                     </div>
                                 </li>
                                 <li>
@@ -515,8 +485,7 @@
                                     <div class="step-content">
                                         <div class="step-title">Giao hàng</div>
                                         <div class="step-description">Đơn vị vận chuyển sẽ liên hệ và giao hàng tận nơi
-                                            cho bạn
-                                        </div>
+                                            cho bạn</div>
                                     </div>
                                 </li>
                                 <li>
@@ -524,8 +493,7 @@
                                     <div class="step-content">
                                         <div class="step-title">Nhận hàng & Đánh giá</div>
                                         <div class="step-description">Kiểm tra sản phẩm và để lại đánh giá để giúp chúng
-                                            tôi cải
-                                            thiện dịch vụ</div>
+                                            tôi cải thiện dịch vụ</div>
                                     </div>
                                 </li>
                             </ul>
@@ -546,45 +514,19 @@
                 </div>
             </main>
 
-
             <jsp:include page="../layout/footer.jsp" />
-
-
-
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="/client/lib/easing/easing.min.js"></script>
+            <script src="/client/lib/waypoints/waypoints.min.js"></script>
+            <script src="/client/lib/lightbox/js/lightbox.min.js"></script>
+            <script src="/client/lib/owlcarousel/owl.carousel.min.js"></script>
+            <script src="/client/js/main.js"></script>
             <script>
-                // Script để có thể tùy chỉnh động
                 document.addEventListener('DOMContentLoaded', function () {
-                    // Có thể lấy mã đơn hàng từ URL parameters hoặc server
                     const urlParams = new URLSearchParams(window.location.search);
                     const orderId = urlParams.get('orderId');
-
-                    if (orderId) {
-                        document.getElementById('orderId').textContent = orderId;
-                    }
-
-                    // Animation cho các elements khi load
-                    const animateElements = document.querySelectorAll('.info-item');
-                    animateElements.forEach((element, index) => {
-                        setTimeout(() => {
-                            element.style.opacity = '0';
-                            element.style.transform = 'translateY(20px)';
-                            element.style.transition = 'all 0.6s ease';
-
-                            requestAnimationFrame(() => {
-                                element.style.opacity = '1';
-                                element.style.transform = 'translateY(0)';
-                            });
-                        }, index * 100);
-                    });
+                    if (orderId) { document.getElementById('orderId').textContent = orderId; }
                 });
-
-                // Function để có thể gọi từ Spring Boot controller
-                function updateOrderInfo(orderData) {
-                    if (orderData.orderId) {
-                        document.getElementById('orderId').textContent = orderData.orderId;
-                    }
-                    // Có thể cập nhật thêm thông tin khác nếu cần
-                }
             </script>
         </body>
 
