@@ -26,7 +26,7 @@ public class VerificationToken {
 
         this.token = token;
         this.user = user;
-
+        this.expiryDate = calculateExpiryDate(EXPIRATION);
     }
 
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)

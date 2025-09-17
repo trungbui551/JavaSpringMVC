@@ -7,9 +7,6 @@ import com.taplamweb.exceptions.UserAlreadyExistException;
 
 public interface IUserService {
 
-    User registerNewUserAccount(RegisterDTO userDto)
-            throws UserAlreadyExistException;
-
     User getUser(String verificationToken);
 
     void saveRegisteredUser(User user);

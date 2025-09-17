@@ -92,10 +92,9 @@ public class UserService implements IUserService {
 
         User user = new User();
         user.setFullName(userDto.getFirstName() + userDto.getLastName());
-
         user.setPassWord(userDto.getPassword());
         user.setEmail(userDto.getEmail());
-
+        user.setEnabled(false);
         return userRepository.save(user);
     }
 
@@ -129,9 +128,4 @@ public class UserService implements IUserService {
         tokenRepository.save(myToken);
     }
 
-    @Override
-    public User registerNewUserAccount(RegisterDTO userDto) throws UserAlreadyExistException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'registerNewUserAccount'");
-    }
 }
