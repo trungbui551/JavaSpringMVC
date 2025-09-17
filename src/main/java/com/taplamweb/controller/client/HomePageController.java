@@ -84,6 +84,7 @@ public class HomePageController {
         user.setRole(this.userService.getRoleByName("USER"));
         user.setAddress("Chưa cập nhật");
         user.setPhone("chưa cập nhật");
+        user.setEnabled(false);
         this.userService.handleSaveUser(user);
 
         String appUrl = request.getContextPath();

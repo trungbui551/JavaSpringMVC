@@ -103,33 +103,6 @@ public class UserService implements IUserService {
         return Collections.singletonList(new SimpleGrantedAuthority(role));
     }
 
-    public UserDetails loadByUserName(String email)
-            throws UsernameNotFoundException {
-
-        boolean enabled = true;
-        boolean accountNonExpired = true;
-        boolean credentialsNonExpired = true;
-        boolean accountNonLocked = true;
-        try {
-            User user = userRepository.findOneByEmail(email);
-            if (user == null) {
-                throw new UsernameNotFoundException(
-                        "No user found with username: " + email);
-            }
-
-            return new org.springframework.security.core.userdetails.User(
-                    user.getEmail(),
-                    user.getPassWord(),
-                    user.isEnabled(),
-                    accountNonExpired,
-                    credentialsNonExpired,
-                    accountNonLocked,
-                    getAuthorities(user.getRole() + ""));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     private boolean emailExist(String email) {
         return userRepository.findByEmail(email) != null;
     }

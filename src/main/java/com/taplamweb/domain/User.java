@@ -59,7 +59,7 @@ public class User {
     private boolean enabled;
 
     public User() {
-        super();
+
         this.enabled = false;
     }
     // role id

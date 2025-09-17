@@ -19,13 +19,29 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        com.taplamweb.domain.User user = this.userService.getUserByEmail(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("user not found");
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+        boolean accountNonExpired = true;
+        boolean credentialsNonExpired = true;
+        boolean accountNonLocked = true;
+        try {
+            com.taplamweb.domain.User user = userService.getUserByEmail(email);
+            if (user == null) {
+                throw new UsernameNotFoundException(
+                        "No user found with username: " + email);
+            }
+
+            return new org.springframework.security.core.userdetails.User(
+                    user.getEmail(),
+                    user.getPassWord(),
+                    user.isEnabled(),
+                    accountNonExpired,
+                    credentialsNonExpired,
+                    accountNonLocked,
+                    Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().getName())));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        return new User(user.getEmail(), user.getPassWord(),
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().getName())));
     }
 
 }
