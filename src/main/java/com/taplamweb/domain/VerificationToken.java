@@ -21,6 +21,7 @@ public class VerificationToken {
     private Long id;
 
     private String token;
+    private Date expiryDate;
 
     public VerificationToken(String token, User user) {
 
@@ -32,8 +33,6 @@ public class VerificationToken {
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
-
-    private Date expiryDate;
 
     private Date calculateExpiryDate(int expiryTimeInMinutes) {
         Calendar cal = Calendar.getInstance();
