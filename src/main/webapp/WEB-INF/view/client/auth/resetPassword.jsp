@@ -77,33 +77,35 @@
 
             <body>
                 <div class="login-container">
-                    <h2>Đăng nhập</h2>
-                    <form method="post" action="/login">
-                        <input type="text" name="username" placeholder="Tên đăng nhập" required />
-                        <input type="password" name="password" placeholder="Mật khẩu" required />
+                    <h2>Tạo mật khẩu mới</h2>
+                    <form:form method="post" action="/resetPassword" modelAttribute="user">
+
+                        <form:input type="password" name="password" id="password" path="passWord" placeholder="Mật khẩu"
+                            required />
+                        <form:input type="password" name="repeatpassword" placeholder="Nhập lại mật khẩu" required />
                         <div>
-                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                            <form:input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
                         </div>
+                        <button type="submit">Đổi mật khẩu</button>
 
-                        <c:if test="${param.error != null}">
-                            <div class="my-2" style="color: red;">Invalid email or password.</div>
-                        </c:if>
+                    </form:form>
 
-                        <button type="submit">Đăng nhập</button>
 
-                    </form>
-
-                    <div class="text-center mt-3">
-                        <span>Bạn chưa có tài khoản? </span>
-                        <a href="<%=request.getContextPath() %>/register">Đăng ký ngay</a>
-
-                    </div>
-                    <div class="text-center mt-3">
-                        <span>Quên mật khẩu? </span>
-                        <a href="<%=request.getContextPath() %>/forgotPassword">Lấy lại mật khẩu</a>
-                    </div>
                 </div>
             </body>
+            <script type="text/javascript">
+                function passwordChecking() {
+                    password = document.getElementById("password").value;
+                    passwordafter = document.getElementById("repeatpassword").value;
+                    if (password !== passwordafter) {
+                        document.getElementById("msg").innerHTML = "Mật khẩu không khớp!";
+                        return false;
+                    } else {
+                        document.getElementById("msg").innerHTML = "";
+                        return true;
+                    }
+                }
+            </script>
 
             </html>

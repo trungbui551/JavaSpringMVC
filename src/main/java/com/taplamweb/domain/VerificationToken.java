@@ -23,6 +23,9 @@ public class VerificationToken {
     private String token;
     private Date expiryDate;
 
+    public VerificationToken() {
+    }
+
     public VerificationToken(String token, User user) {
 
         this.token = token;

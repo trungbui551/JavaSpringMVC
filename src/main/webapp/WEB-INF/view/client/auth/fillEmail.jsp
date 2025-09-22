@@ -77,32 +77,24 @@
 
             <body>
                 <div class="login-container">
-                    <h2>Đăng nhập</h2>
-                    <form method="post" action="/login">
-                        <input type="text" name="username" placeholder="Tên đăng nhập" required />
-                        <input type="password" name="password" placeholder="Mật khẩu" required />
+                    <h2>Lấy lại mật khẩu</h2>
+                    <form method="post" action="/handle-password">
+                        <input type="text" name="username" placeholder="Nhập Email Của Bạn" required />
                         <div>
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
                         </div>
 
-                        <c:if test="${param.error != null}">
-                            <div class="my-2" style="color: red;">Invalid email or password.</div>
-                        </c:if>
-
-                        <button type="submit">Đăng nhập</button>
+                        <button type="submit">Lấy Lại mật khẩu ngay</button>
 
                     </form>
 
                     <div class="text-center mt-3">
-                        <span>Bạn chưa có tài khoản? </span>
-                        <a href="<%=request.getContextPath() %>/register">Đăng ký ngay</a>
+                        <span>Đăng nhập bằng tài khoản khác:</span>
+                        <a href="<%=request.getContextPath() %>/login">Đăng Nhập</a>
 
                     </div>
-                    <div class="text-center mt-3">
-                        <span>Quên mật khẩu? </span>
-                        <a href="<%=request.getContextPath() %>/forgotPassword">Lấy lại mật khẩu</a>
-                    </div>
+
                 </div>
             </body>
 

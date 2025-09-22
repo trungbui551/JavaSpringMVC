@@ -1,7 +1,6 @@
 package com.taplamweb.controller.client;
 
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +21,7 @@ import com.taplamweb.domain.User;
 import com.taplamweb.domain.VerificationToken;
 import com.taplamweb.domain.dto.RegisterDTO;
 import com.taplamweb.event.OnRegistrationCompleteEvent;
+import com.taplamweb.event.OnResetPasswordEvent;
 import com.taplamweb.service.IUserService;
 import com.taplamweb.service.ProductService;
 import com.taplamweb.service.UserService;
@@ -31,6 +30,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class HomePageController {
@@ -87,7 +88,8 @@ public class HomePageController {
         user.setEnabled(false);
         this.userService.handleSaveUser(user);
 
-        String appUrl = request.getContextPath();
+        String appUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+
         eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user,
                 request.getLocale(), appUrl));
         return "redirect:/login";
@@ -127,5 +129,71 @@ public class HomePageController {
         user.setEnabled(true);
         service.saveRegisteredUser(user);
         return "redirect:/login?lang=" + request.getLocale().getLanguage();
+    }
+
+    // forgot password controller
+    @GetMapping("/forgotPassword")
+    public String getForgotPassWordController(Model model) {
+
+        return "client/auth/fillEmail";
+    }
+
+    @PostMapping("/handle-password")
+    public String getHandlePasswordPage(HttpServletRequest request, @RequestParam("username") String email,
+            Model model) {
+
+        boolean check = this.userService.checkExistsEmail(email);
+        System.out.println("Email: " + email + " Check: \n" + check);
+        if (check == false) {
+            String error = "Tài khoản không tồn tại";
+            model.addAttribute("error", error);
+            return "redirect:/forgotPassword";
+        }
+        String appUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+        User user = this.userService.getUserByEmail(email);
+        eventPublisher.publishEvent(new OnResetPasswordEvent(user,
+                request.getLocale(), appUrl));
+        return "client/auth/emailCheck";
+    }
+
+    @GetMapping("/userConfirm")
+    public String userConfirm(WebRequest request, Model model, @RequestParam("token") String token) {
+
+        Locale locale = request.getLocale();
+
+        VerificationToken verificationToken = service.getVerificationToken(token);
+        if (verificationToken == null) {
+            String message = messages.getMessage("auth.message.invalidToken", null, locale);
+            model.addAttribute("message", message);
+            return "redirect:/badUser?lang=" + locale.getLanguage();
+        }
+
+        User user = verificationToken.getUser();
+        Calendar cal = Calendar.getInstance();
+        if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+            String messageValue = messages.getMessage("auth.message.expired", null, locale);
+            model.addAttribute("message", messageValue);
+            return "redirect:/badUser?lang=" + locale.getLanguage();
+        }
+
+        model.addAttribute("user", user);
+        return "redirect:/resetPassword?lang=" + request.getLocale().getLanguage();
+    }
+
+    @GetMapping("/resetPassword")
+    public String getResetPasswordPage(Model model) {
+
+        return "client/auth/resetPassword";
+    }
+
+    @PostMapping("/resetPassword")
+    public String postMethodName(@ModelAttribute("user") User user, Model model) {
+        this.userService.handleSaveUser(user);
+        return "redirect:/login";
+    }
+
+    @GetMapping("/emailCheck")
+    public String getEmailCheck() {
+        return "client/auth/emailCheck";
     }
 }
