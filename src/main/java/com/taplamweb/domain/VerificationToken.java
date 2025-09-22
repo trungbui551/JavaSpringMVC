@@ -80,4 +80,8 @@ public class VerificationToken {
         this.expiryDate = expiryDate;
     }
 
+    public void upDate(String token) {
+        this.token = token;
+        this.expiryDate = calculateExpiryDate(EXPIRATION);
+    }
 }

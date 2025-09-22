@@ -20,6 +20,8 @@ import com.taplamweb.repository.RoleRepository;
 import com.taplamweb.repository.UserRepository;
 import com.taplamweb.repository.VerificationTokenRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class UserService implements IUserService {
     private final UserRepository userRepository;
@@ -121,13 +123,13 @@ public class UserService implements IUserService {
     }
 
     @Override
+    @Transactional
     public void createVerificationToken(User user, String token) {
         VerificationToken existingToken = tokenRepository.findByUser(user);
 
         if (existingToken != null) {
-            // Nếu đã có, chỉ cần cập nhật token và ngày hết hạn
-            existingToken.setToken(token);
-            tokenRepository.save(existingToken);
+            existingToken.upDate(token);
+            this.tokenRepository.save(existingToken);
         } else {
             // Nếu chưa có, tạo một token mới
             VerificationToken myToken = new VerificationToken(token, user);

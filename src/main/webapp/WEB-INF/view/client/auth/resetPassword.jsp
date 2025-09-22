@@ -5,7 +5,7 @@
 
             <head>
                 <meta charset="UTF-8">
-                <title>Đăng nhập</title>
+                <title>Đổi mật khẩu</title>
                 <style>
                     body {
                         margin: 0;
@@ -78,18 +78,20 @@
             <body>
                 <div class="login-container">
                     <h2>Tạo mật khẩu mới</h2>
-                    <form:form method="post" action="/resetPassword" modelAttribute="user">
+                    <form method="post" action="/resetPassword">
 
-                        <form:input type="password" name="password" id="password" path="passWord" placeholder="Mật khẩu"
+                        <input type="password" name="password" id="password" path="passWord" placeholder="Mật khẩu"
                             required />
-                        <form:input type="password" name="repeatpassword" placeholder="Nhập lại mật khẩu" required />
+                        <input type="password" name="repeatpassword" placeholder="Nhập lại mật khẩu" required />
                         <div>
-                            <form:input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
                         </div>
+
+                        <input type="hidden" name="token" value="${token}" />
                         <button type="submit">Đổi mật khẩu</button>
 
-                    </form:form>
+                    </form>
 
 
                 </div>

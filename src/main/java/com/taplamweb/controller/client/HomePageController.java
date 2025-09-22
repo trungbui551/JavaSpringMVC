@@ -165,7 +165,9 @@ public class HomePageController {
         if (verificationToken == null) {
             String message = messages.getMessage("auth.message.invalidToken", null, locale);
             model.addAttribute("message", message);
+            System.out.println("------------------------------- NULL");
             return "redirect:/badUser?lang=" + locale.getLanguage();
+
         }
 
         User user = verificationToken.getUser();
@@ -173,25 +175,38 @@ public class HomePageController {
         if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
             String messageValue = messages.getMessage("auth.message.expired", null, locale);
             model.addAttribute("message", messageValue);
+            System.out.println("------------------------------- Hết Hạn");
             return "redirect:/badUser?lang=" + locale.getLanguage();
         }
-
-        model.addAttribute("user", user);
-        return "redirect:/resetPassword?lang=" + request.getLocale().getLanguage();
+        return "redirect:/resetPassword?token=" + token;
     }
 
     @GetMapping("/resetPassword")
-    public String getResetPasswordPage(Model model) {
-
+    public String getResetPasswordPage(@RequestParam("token") String token, Model model) {
+        model.addAttribute("token", token);
         return "client/auth/resetPassword";
     }
 
     @PostMapping("/resetPassword")
-    public String postMethodName(@ModelAttribute("user") User user, Model model) {
-        String password = passwordEncoder.encode(user.getPassWord());
-        user.setPassWord(password);
-        this.userService.handleSaveUser(user);
-        return "redirect:/login";
+    public String postMethodName(@RequestParam("token") String token,
+            @RequestParam("password") String password,
+            Model model) {
+        String password1 = passwordEncoder.encode(password);
+        VerificationToken verificationToken = service.getVerificationToken(token);
+        if (verificationToken == null) {
+            return "redirect:/badUser"; // Token không hợp lệ
+        }
+
+        User user = verificationToken.getUser();
+        if (user != null) {
+            String encodedPassword = passwordEncoder.encode(password);
+            User user1 = this.userService.getUserByEmail(user.getEmail());
+            user1.setPassWord(encodedPassword);
+
+            return "redirect:/login?resetSuccess";
+        } else {
+            return "redirect:/badUser";
+        }
     }
 
     @GetMapping("/emailCheck")
