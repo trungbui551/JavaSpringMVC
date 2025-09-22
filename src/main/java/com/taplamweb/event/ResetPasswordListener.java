@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Component;
 
 import com.taplamweb.domain.User;
 import com.taplamweb.service.IUserService;
@@ -14,6 +15,7 @@ import com.taplamweb.service.IUserService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
+@Component
 public class ResetPasswordListener implements ApplicationListener<OnResetPasswordEvent> {
     @Autowired
     private IUserService service;

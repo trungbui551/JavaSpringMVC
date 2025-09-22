@@ -188,6 +188,8 @@ public class HomePageController {
 
     @PostMapping("/resetPassword")
     public String postMethodName(@ModelAttribute("user") User user, Model model) {
+        String password = passwordEncoder.encode(user.getPassWord());
+        user.setPassWord(password);
         this.userService.handleSaveUser(user);
         return "redirect:/login";
     }
@@ -195,5 +197,10 @@ public class HomePageController {
     @GetMapping("/emailCheck")
     public String getEmailCheck() {
         return "client/auth/emailCheck";
+    }
+
+    @GetMapping("/badUser")
+    public String getBadUser() {
+        return "client/auth/badUser";
     }
 }
