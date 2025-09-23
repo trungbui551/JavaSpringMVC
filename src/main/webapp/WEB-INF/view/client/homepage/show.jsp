@@ -133,7 +133,7 @@
 
 
                 <!-- Fruits Shop Start-->
-                <div class="container-fluid fruite py-5">
+                <div class="container-fluid fruite py-5" id="san-pham">
                     <div class="container py-5">
                         <div class="tab-class text-center">
                             <div class="row g-4">
@@ -150,18 +150,7 @@
                                         </li>
 
 
-                                        <li class="nav-item">
-                                            <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill"
-                                                href="#tab-4">
-                                                <span class="text-dark" style="width: 130px;">Bread</span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill"
-                                                href="#tab-5">
-                                                <span class="text-dark" style="width: 130px;">Meat</span>
-                                            </a>
-                                        </li>
+
                                     </ul>
                                 </div>
                             </div>

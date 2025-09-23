@@ -29,7 +29,7 @@
                     <div class="collapse navbar-collapse bg-white justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav ">
                             <a href="/" class="nav-item nav-link active">Home</a>
-                            <a href="shop.html" class="nav-item nav-link">Sản Phẩm</a>
+                            <a href="<%=request.getContextPath()%>/#san-pham" class="nav-item nav-link">Sản Phẩm</a>
                         </div>
 
                         <div class="d-flex m-3 me-0">

@@ -177,13 +177,13 @@ public class ProductService {
     }
 
     public Page<Product> getALL(Integer pageNo) {
-        Pageable pageable = PageRequest.of(pageNo - 1, 2);
+        Pageable pageable = PageRequest.of(pageNo - 1, 8);
         return this.productRepository.findAll(pageable);
     }
 
     public Page<Product> searchProduct(String keyword, Integer pageNo) {
         List<Product> list = this.productRepository.findByNameContainingIgnoreCase(keyword);
-        Pageable pageable = PageRequest.of(pageNo - 1, 2);
+        Pageable pageable = PageRequest.of(pageNo - 1, 8);
         Integer start = (int) pageable.getOffset();
         Integer end = (int) ((pageable.getOffset() + pageable.getPageSize()) > list.size() ? list.size()
                 : (pageable.getOffset() + pageable.getPageSize()));
