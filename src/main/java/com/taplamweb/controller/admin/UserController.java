@@ -93,8 +93,10 @@ public class UserController {
             currentUser.setFullName(hoidanit.getFullName());
             currentUser.setPhone(hoidanit.getPhone());
             Role role = this.userService.getRoleByName(hoidanit.getRole().getName());
-            String avatarFile = this.uploadService.handleSaverUploadFile(file, "avatar");
-            currentUser.setAvatar(avatarFile);
+            if (file != null) {
+                String avatarFile = this.uploadService.handleSaverUploadFile(file, "avatar");
+                currentUser.setAvatar(avatarFile);
+            }
             currentUser.setRole(role);
             this.userService.handleSaveUser(currentUser);
         }

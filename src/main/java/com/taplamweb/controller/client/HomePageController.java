@@ -14,9 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.taplamweb.domain.Product;
+import com.taplamweb.domain.Role;
 import com.taplamweb.domain.User;
 import com.taplamweb.domain.VerificationToken;
 import com.taplamweb.domain.dto.RegisterDTO;
@@ -24,12 +26,15 @@ import com.taplamweb.event.OnRegistrationCompleteEvent;
 import com.taplamweb.event.OnResetPasswordEvent;
 import com.taplamweb.service.IUserService;
 import com.taplamweb.service.ProductService;
+import com.taplamweb.service.UploadService;
 import com.taplamweb.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -38,18 +43,20 @@ public class HomePageController {
     private final ProductService productService;
     private final UserService userService;
     private PasswordEncoder passwordEncoder;
+    private UploadService uploadService;
     ApplicationEventPublisher eventPublisher;
     private IUserService service;
     @Autowired
     private MessageSource messages;
 
     public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder,
-            ApplicationEventPublisher eventPublisher, IUserService service) {
+            ApplicationEventPublisher eventPublisher, IUserService service, UploadService uploadService) {
         this.productService = productService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.eventPublisher = eventPublisher;
         this.service = service;
+        this.uploadService = uploadService;
     }
 
     @GetMapping("/")
@@ -218,4 +225,35 @@ public class HomePageController {
     public String getBadUser() {
         return "client/auth/badUser";
     }
+
+    // update information
+    @GetMapping("/client/update/{id}")
+    public String getUpdateInformationPage(Model model, @PathVariable long id) {
+        User user = this.userService.getUsersByID(id);
+        model.addAttribute("presentUser", user);
+        return "client/update/information";
+    }
+
+    // nhan request va xu ly
+    @PostMapping("/client/update")
+    public String updateInformation(Model model, @ModelAttribute("presentUser") User user,
+            @RequestParam("newimg") MultipartFile file, RedirectAttributes redirectAttributes) {
+
+        User currentUser = this.userService.getUsersByID(user.getId());
+        if (currentUser != null) {
+            currentUser.setAddress(user.getAddress());
+            currentUser.setFullName(user.getFullName());
+            currentUser.setPhone(user.getPhone());
+            if (!file.isEmpty()) {
+                String avatarFile = this.uploadService.handleSaverUploadFile(file, "avatar");
+                currentUser.setAvatar(avatarFile);
+            }
+
+            System.out.println();
+            this.userService.handleSaveUser(currentUser);
+            redirectAttributes.addFlashAttribute("message", "cập nhật thành công!");
+        }
+        return "redirect:/";
+    }
+
 }

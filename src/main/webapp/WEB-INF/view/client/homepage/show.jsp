@@ -111,28 +111,21 @@
             </head>
 
             <body>
-
+                <c:if test="${not empty message}">
+                    <script>
+                        alert("${message}");
+                    </script>
+                </c:if>
                 <!-- Spinner Start -->
                 <div id="spinner"
                     class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
                     <div class="spinner-grow text-primary" role="status"></div>
                 </div>
-                <!-- Spinner End -->
 
                 <jsp:include page="../layout/header.jsp" />
-
-
-
-
-
-                <!-- Hero Start -->
                 <jsp:include page="../layout/banner.jsp" />
-                <!-- Hero End -->
 
 
-
-
-                <!-- Fruits Shop Start-->
                 <div class="container-fluid fruite py-5" id="san-pham">
                     <div class="container py-5">
                         <div class="tab-class text-center">
@@ -148,8 +141,6 @@
                                                 <span class="text-dark" style="width: 130px;">All Products</span>
                                             </a>
                                         </li>
-
-
 
                                     </ul>
                                 </div>
@@ -201,13 +192,7 @@
                                                             </div>
                                                         </div>
                                                     </c:forEach>
-
-
                                                 </tr>
-
-
-
-
                                             </div>
                                         </div>
                                     </div>

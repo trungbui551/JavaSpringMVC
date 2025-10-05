@@ -57,7 +57,9 @@
                                             </div>
                                         </li>
 
-                                        <li><a class="dropdown-item" href="#">Quản lý tài khoản</a></li>
+                                        <li><a class="dropdown-item" href="/client/update/${sessionScope.id}">Quản lý
+                                                tài
+                                                khoản</a></li>
                                         <li><a class="dropdown-item" href="/client/history/${sessionScope.id}">Lịch sử
                                                 mua hàng</a></li>
                                         <li>
