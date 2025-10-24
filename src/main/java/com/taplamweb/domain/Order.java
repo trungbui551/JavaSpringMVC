@@ -1,7 +1,9 @@
 package com.taplamweb.domain;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +28,8 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    @Column(name = "order_date")
+    LocalDateTime orderDate;
 
     public User getUser() {
         return user;
@@ -97,6 +101,14 @@ public class Order {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
     }
 
 }

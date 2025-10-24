@@ -1,5 +1,6 @@
 package com.taplamweb.controller.client;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -127,6 +128,8 @@ public class ItemController {
         String email = (String) session.getAttribute("email");
         User user = this.userService.getUserByEmail(email);
         long id = (long) session.getAttribute("id");
+        LocalDateTime time = LocalDateTime.now();
+        session.setAttribute("timeOrder", time);
         user.setId(id);
         this.productService.handlePlaceOrder(user, session, receiverName, receiverPhone, receiverAddress, totalPrice);
         return "redirect:/thanks";

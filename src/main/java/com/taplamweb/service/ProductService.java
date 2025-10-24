@@ -1,5 +1,6 @@
 package com.taplamweb.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -148,8 +149,11 @@ public class ProductService {
             List<CartDetail> list = cart.getCartDetails();
             if (list != null) {
                 // Create order
+
                 Order order = new Order();
                 order.setUser(user);
+                LocalDateTime timeOder = (LocalDateTime) session.getAttribute("timeOrder");
+                order.setOrderDate(timeOder);
                 order.setReceiverAddress(receiverAddress);
                 order.setReceiverName(receriverName);
                 order.setReceiverPhone(receiverPhone);
@@ -162,7 +166,9 @@ public class ProductService {
                     orderDetail.setProduct(cartDetail.getProduct());
                     orderDetail.setPrice(cartDetail.getPrice());
                     orderDetail.setQuantity(cartDetail.getQuantity());
-
+                    Product product = orderDetail.getProduct();
+                    product.setSold(product.getSold() + orderDetail.getQuantity());
+                    this.productRepository.save(product);
                     this.orderDetailRepository.save(orderDetail);
                 }
                 // Xóa cart và cart detail

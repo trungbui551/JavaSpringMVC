@@ -1,6 +1,8 @@
 package com.taplamweb.repository;
 
 import org.springframework.stereotype.Repository;
+
+import com.taplamweb.domain.OrderDetail;
 import com.taplamweb.domain.Product;
 
 import org.springframework.data.jpa.repository.JpaRepository;

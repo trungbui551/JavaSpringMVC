@@ -1,6 +1,9 @@
 package com.taplamweb.controller.admin;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,11 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.taplamweb.domain.Order;
 import com.taplamweb.domain.OrderDetail;
-import com.taplamweb.domain.User;
 import com.taplamweb.service.OrderService;
 
 @Controller
@@ -53,4 +55,22 @@ public class OrderController {
         return "redirect:/admin/order";
 
     }
+
+    @GetMapping("/revenue-data")
+    @ResponseBody
+    public Map<String, Object> getRevenueData() {
+        Map data = new HashMap<>();
+        List<String> lables = new ArrayList<>();
+        List<Double> revenue = new ArrayList<>();
+        List<Object[]> ob = this.orderService.getRevenueByMonth();
+        for (Object[] o : ob) {
+            lables.add(o[0].toString());
+            revenue.add(((Number) o[1]).doubleValue());
+        }
+        data.put("labels", lables);
+        data.put("value", revenue);
+        System.out.println(data.toString());
+        return data;
+    }
+
 }

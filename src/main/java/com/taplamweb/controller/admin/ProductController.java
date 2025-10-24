@@ -2,7 +2,6 @@ package com.taplamweb.controller.admin;
 
 import java.util.List;
 
-import org.eclipse.tags.shaded.org.apache.xpath.operations.Mod;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
@@ -18,12 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.taplamweb.domain.Product;
-import com.taplamweb.domain.Role;
+
 import com.taplamweb.service.ProductService;
 import com.taplamweb.service.UploadService;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller

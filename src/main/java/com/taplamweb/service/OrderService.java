@@ -1,5 +1,6 @@
 package com.taplamweb.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -48,5 +49,26 @@ public class OrderService {
 
     public List<Order> getOrderListByUser(User user) {
         return this.orderRepository.findByUser(user);
+    }
+
+    public List<Object[]> getRevenueByMonth() {
+        List<Object[]> data = this.orderRepository.getRevenueByMonth();
+        List<Object[]> result = new ArrayList<>();
+
+        for (Object[] objects : data) {
+            Number yearNum = (Number) objects[1];
+            Number monthNum = (Number) objects[0];
+            Number revenue = (Number) objects[2]; // có thể là Double hoặc BigDecimal
+            if (monthNum == null || yearNum == null || revenue == null) {
+                System.out.println("Skipping NULL record");
+                continue;
+            }
+            int year = yearNum != null ? yearNum.intValue() : 0;
+            int month = monthNum != null ? monthNum.intValue() : 0;
+            double total = revenue != null ? revenue.doubleValue() : 0.0;
+            String lable = "Tháng " + month + "/" + year;
+            result.add(new Object[] { lable, total });
+        }
+        return result;
     }
 }
