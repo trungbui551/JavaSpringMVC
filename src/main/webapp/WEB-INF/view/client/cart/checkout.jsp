@@ -205,7 +205,7 @@
                                                                 path="cartDetails[${status.index}].id" />
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>Quantity:</label>
+                                                            <label>Số lượng:</label>
                                                             <form:input class="form-control" type="text"
                                                                 value="${cartDetail.quantity}"
                                                                 path="cartDetails[${status.index}].quantity" />
@@ -216,7 +216,7 @@
                                             </div>
                                             <button
                                                 class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
-                                                type="submit">Thanh Toán</button>
+                                                type="submit">Đặt Hàng Ngay</button>
 
 
                                         </div>
