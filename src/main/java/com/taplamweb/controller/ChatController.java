@@ -1,3 +1,4 @@
+
 package com.taplamweb.controller;
 
 import java.security.Principal;
@@ -7,37 +8,71 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping; // Thêm import này
 
 import com.taplamweb.domain.ChatMessage;
 import com.taplamweb.service.ChatService;
 
 @Controller
-
 public class ChatController {
+
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
+
     @Autowired
     private ChatService chatService;
 
-    // Endpoint nhận tin nhắn từ Client
+    // --- PHẦN 1: MỞ TRANG CHAT (QUAN TRỌNG) ---
+    // Hàm này giúp đảm bảo khi bạn vào /admin/chat, nó load ĐÚNG file JSP bạn vừa
+    // sửa
+    @GetMapping("/admin/chat")
+    public String getChatPage() {
+        // Dựa vào file list của bạn, file jsp nằm ở:
+        // /WEB-INF/view/admin/dashboard/admin_chat.jsp
+        // Nếu file JSP của bạn tên là admin-chat.jsp (dấu gạch ngang) thì sửa lại bên
+        // dưới
+        return "admin/dashboard/admin_chat";
+    }
+
+    // --- PHẦN 2: XỬ LÝ NHẮN TIN SOCKET ---
     @MessageMapping("/chat")
     public void processMessage(@Payload ChatMessage chatMessage, Principal principal) {
 
-        // 1. Xác thực người gửi (Lấy từ Spring Security Session)
-        String senderName = principal.getName();
-        chatMessage.setSenderId(senderName);
+        // Log để biết tin nhắn ĐÃ ĐẾN SERVER
+        System.out.println("--------------------------------------------------");
+        System.out.println("SERVER NHẬN ĐƯỢC TIN NHẮN TỪ SOCKET:");
 
-        // 2. Lưu vào Database
-        ChatMessage savedMsg = chatService.save(chatMessage);
+        try {
+            // 1. Xác thực người gửi
+            if (principal == null) {
+                System.out.println("LỖI: Principal is NULL (Chưa đăng nhập hoặc mất session)");
+                return;
+            }
 
-        // 3. Gửi tin nhắn tới Người nhận (Recipient)
-        // Đường dẫn đích: /user/{recipientId}/queue/messages
-        messagingTemplate.convertAndSendToUser(
-                chatMessage.getRecipientId(),
-                "/queue/messages",
-                savedMsg);
+            String senderName = principal.getName();
+            chatMessage.setSenderId(senderName);
 
-        // 4. (Tùy chọn) Gửi lại cho chính người gửi để họ thấy tin nhắn vừa chat
-        // (Hoặc Frontend tự render ngay khi bấm gửi cho nhanh)
+            System.out.println("- Người gửi: " + senderName);
+            System.out.println("- Người nhận: " + chatMessage.getRecipientId());
+            System.out.println("- Nội dung: " + chatMessage.getContent());
+
+            // 2. Lưu vào Database
+            ChatMessage savedMsg = chatService.save(chatMessage);
+            System.out.println("- Đã lưu vào DB thành công. ID: " + savedMsg.getId());
+
+            // 3. Gửi tin nhắn tới Người nhận
+            // Đường dẫn này khớp với Client subscribe: /user/queue/messages
+            messagingTemplate.convertAndSendToUser(
+                    chatMessage.getRecipientId(),
+                    "/queue/messages",
+                    savedMsg);
+
+            System.out.println("- Đã chuyển tiếp tin nhắn tới: " + chatMessage.getRecipientId());
+
+        } catch (Exception e) {
+            System.out.println("LỖI XỬ LÝ TIN NHẮN: " + e.getMessage());
+            e.printStackTrace();
+        }
+        System.out.println("--------------------------------------------------");
     }
 }

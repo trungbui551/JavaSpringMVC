@@ -22,8 +22,8 @@ public class DashboardController {
         return "admin/dashboard/show";
     }
 
-    @GetMapping("/admin/chat")
-    public String getChatPage() {
-        return "admin/dashboard/admin_chat";
-    }
+    // @GetMapping("/admin/chat")
+    // public String getChatPage() {
+    // return "admin/dashboard/admin_chat";
+    // }
 }
