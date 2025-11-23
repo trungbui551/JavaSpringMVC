@@ -100,9 +100,9 @@
             // Lưu vào lịch sử tạm
             if (!userHistory[otherParty]) {
                 userHistory[otherParty] = [];
-
+                var userItem = document.getElementById("user-item-" + otherParty);
                 // Nếu chưa có trong danh sách thì thêm vào cột trái
-                if ($(`#user-item-${otherParty}`).length === 0) {
+                if (!userItem) {
                     var itemHtml = `<li class="list-group-item list-group-item-action" 
                                     id="user-item-${otherParty}" 
                                     style="cursor:pointer" 
@@ -133,8 +133,8 @@
             $('#admin-input').focus();
 
             // Xóa highlight
-            $(`#user-item-${username}`).removeClass('bg-warning text-dark fw-bold');
-
+            var el = document.getElementById("user-item-" + username);
+            if (el) $(el).removeClass('bg-warning text-dark fw-bold')
             // Load lại tin nhắn cũ
             $('#admin-message-area').empty();
             if (userHistory[username]) {

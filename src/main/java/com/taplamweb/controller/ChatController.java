@@ -11,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping; // Thêm import này
 
 import com.taplamweb.domain.ChatMessage;
+import com.taplamweb.domain.User;
 import com.taplamweb.service.ChatService;
+import com.taplamweb.service.UserService;
 
 @Controller
 public class ChatController {
@@ -21,6 +23,8 @@ public class ChatController {
 
     @Autowired
     private ChatService chatService;
+    @Autowired
+    private UserService userService;
 
     // --- PHẦN 1: MỞ TRANG CHAT (QUAN TRỌNG) ---
     // Hàm này giúp đảm bảo khi bạn vào /admin/chat, nó load ĐÚNG file JSP bạn vừa
@@ -38,21 +42,21 @@ public class ChatController {
     @MessageMapping("/chat")
     public void processMessage(@Payload ChatMessage chatMessage, Principal principal) {
 
-        // Log để biết tin nhắn ĐÃ ĐẾN SERVER
-        System.out.println("--------------------------------------------------");
-        System.out.println("SERVER NHẬN ĐƯỢC TIN NHẮN TỪ SOCKET:");
-
         try {
             // 1. Xác thực người gửi
             if (principal == null) {
                 System.out.println("LỖI: Principal is NULL (Chưa đăng nhập hoặc mất session)");
                 return;
             }
+            User user = this.userService.getUserByEmail(principal.getName());
+            if (user.getRole().equals("ADMIN")) {
+                chatMessage.setSenderId("ADMIN");
+            } else {
+                String senderName = principal.getName();
+                chatMessage.setSenderId(senderName);
+            }
 
-            String senderName = principal.getName();
-            chatMessage.setSenderId(senderName);
-
-            System.out.println("- Người gửi: " + senderName);
+            System.out.println("- Người gửi: " + chatMessage.getSenderId());
             System.out.println("- Người nhận: " + chatMessage.getRecipientId());
             System.out.println("- Nội dung: " + chatMessage.getContent());
 

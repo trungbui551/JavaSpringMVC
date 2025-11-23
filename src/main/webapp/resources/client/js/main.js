@@ -253,7 +253,7 @@
         if (content && stompClient) {
             var chatMessage = {
                 senderId: currentUsername,
-                recipientId: "admin", // Mặc định gửi cho admin
+                recipientId: "admins@gmail.com", // Mặc định gửi cho admin
                 content: content,
                 timestamp: new Date()
             };
