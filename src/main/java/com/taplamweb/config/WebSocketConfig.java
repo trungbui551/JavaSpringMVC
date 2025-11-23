@@ -19,7 +19,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         // 3. Cấu hình nơi tin nhắn đi ra (Client lắng nghe ở đây)
-        registry.enableSimpleBroker("/user");
+
+        registry.enableSimpleBroker("/queue", "/user");
         // 4. Cấu hình nơi tin nhắn đi vào (Client gửi lên đây)
         // Khi Client gửi tin nhắn có prefix /app, nó sẽ chạy vào các hàm trong
         // Controller

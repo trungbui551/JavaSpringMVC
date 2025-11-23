@@ -85,7 +85,7 @@
                     console.log("📩 Có tin nhắn mới!");
                     var message = JSON.parse(payload.body);
                     handleIncomingMessage(message);
-                });
+                }, true);
 
             }, function (error) {
                 console.error("❌ Lỗi kết nối Socket:", error);
@@ -101,6 +101,7 @@
             if (!userHistory[otherParty]) {
                 userHistory[otherParty] = [];
                 var userItem = document.getElementById("user-item-" + otherParty);
+                console.log("người nhận: " + otherParty);
                 // Nếu chưa có trong danh sách thì thêm vào cột trái
                 if (!userItem) {
                     var itemHtml = `<li class="list-group-item list-group-item-action" 

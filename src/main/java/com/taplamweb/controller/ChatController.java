@@ -66,8 +66,16 @@ public class ChatController {
 
             // 3. Gửi tin nhắn tới Người nhận
             // Đường dẫn này khớp với Client subscribe: /user/queue/messages
+            String recipient = chatMessage.getRecipientId();
+
+            // Mẹo sửa nhanh: Nếu tin nhắn gửi cho "ADMIN", hãy lái nó sang email thật của
+            // bạn
+            if ("ADMIN".equals(recipient)) {
+                recipient = "admin@gmail.com"; // <--- Thay bằng email admin thật của bạn (ví dụ: trungbui... gì đó)
+            }
+
             messagingTemplate.convertAndSendToUser(
-                    chatMessage.getRecipientId(),
+                    recipient,
                     "/queue/messages",
                     savedMsg);
 
