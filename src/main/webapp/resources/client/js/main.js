@@ -208,5 +208,92 @@
         formatted = formatted.replace(/\./g, ',');
         return formatted;
     }
+
+    var stompClient = null;
+    // Lấy username từ server (Ví dụ Thymeleaf dùng [[${#authentication.name}]])
+    // Hoặc nếu dùng JSP: var currentUsername = "${pageContext.request.userPrincipal.name}";
+    // Ở đây mình giả sử bạn lấy được username rồi.
+    var currentUsername = "user_dang_login";
+
+    $(document).ready(function () {
+        // 1. Xử lý UI: Bật tắt khung chat
+        $('#chat-button').click(function () {
+            $('#chat-box').show();
+            connect(); // Mở chat là kết nối luôn
+        });
+        $('#close-chat').click(function () {
+            $('#chat-box').hide();
+        });
+
+        // 2. Gửi tin khi ấn Enter hoặc nút Gửi
+        $('#btn-send').click(sendMessage);
+        $('#msg-input').keypress(function (e) {
+            if (e.which == 13) sendMessage();
+        });
+    });
+
+    function connect() {
+        if (stompClient !== null) return; // Đã kết nối thì thôi
+
+        var socket = new SockJS('/ws'); // Đường dẫn phải khớp config BE
+        stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, function (frame) {
+            console.log('Connected: ' + frame);
+
+            // Đăng ký nhận tin nhắn trả về
+            stompClient.subscribe('/user/queue/messages', function (messageOutput) {
+                showMessage(JSON.parse(messageOutput.body));
+            });
+        });
+    }
+
+    function sendMessage() {
+        var content = $('#msg-input').val().trim();
+        if (content && stompClient) {
+            var chatMessage = {
+                senderId: currentUsername,
+                recipientId: "admin", // Mặc định gửi cho admin
+                content: content,
+                timestamp: new Date()
+            };
+
+            // Gửi lên server
+            stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
+
+            // Hiển thị ngay tin nhắn của mình lên màn hình (cho mượt)
+            showMessage(chatMessage);
+            $('#msg-input').val(''); // Xóa ô nhập
+        }
+    }
+
+    function showMessage(message) {
+        var messageArea = $('#message-area');
+
+        // Kiểm tra xem tin nhắn là của mình (Me) hay của Admin (Other)
+        // Lưu ý: So sánh senderId với currentUsername
+        var isMe = (message.senderId === currentUsername);
+
+        var align = isMe ? 'text-end' : 'text-start';
+        var bg = isMe ? 'bg-primary text-white' : 'bg-light text-dark border';
+
+        var html = `
+            <div class="mb-2 ${align}">
+                <div class="d-inline-block p-2 rounded ${bg}" style="max-width: 75%;">
+                    ${message.content}
+                </div>
+                <div class="small text-muted" style="font-size: 10px;">
+                    ${new Date(message.timestamp).toLocaleTimeString()}
+                </div>
+            </div>
+        `;
+
+        messageArea.append(html);
+
+        // Tự động cuộn xuống dưới cùng
+        messageArea.scrollTop(messageArea[0].scrollHeight);
+    }
+
 })(jQuery);
+
 

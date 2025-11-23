@@ -71,4 +71,9 @@ public class OrderService {
         }
         return result;
     }
+
+    public List<Order> getListOrderForDashBoard() {
+        return this.orderRepository.findAllByOrderByOrderDateDesc();
+    }
+
 }

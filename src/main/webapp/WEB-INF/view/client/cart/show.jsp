@@ -181,7 +181,7 @@
                                                         <p class="mb-0" id="shipping">0 đ</p>
                                                     </div>
                                                 </div>
-                                                <p class="mb-0 text-end">Shipping to Ukraine.</p>
+
                                             </div>
                                             <div
                                                 class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">

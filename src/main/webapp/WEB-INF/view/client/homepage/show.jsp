@@ -83,6 +83,11 @@
                         /* nếu muốn bo góc */
                     }
                 </style>
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Home</title>
@@ -207,7 +212,30 @@
                     </div>
                 </div>
 
+                <button id="chat-button" class="btn btn-primary rounded-circle"
+                    style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; width: 60px; height: 60px;">
+                    <i class="bi bi-chat-dots"></i> Chat
+                </button>
 
+                <div id="chat-box" class="card shadow"
+                    style="display: none; position: fixed; bottom: 90px; right: 20px; width: 350px; z-index: 1000;">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between">
+                        <span>Hỗ trợ trực tuyến</span>
+                        <button type="button" class="btn-close btn-close-white" id="close-chat"></button>
+                    </div>
+
+                    <div class="card-body overflow-auto" id="message-area"
+                        style="height: 300px; background-color: #f8f9fa;">
+                        <div class="text-center text-muted small">Bắt đầu trò chuyện với Admin...</div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="input-group">
+                            <input type="text" id="msg-input" class="form-control" placeholder="Nhập tin nhắn...">
+                            <button class="btn btn-primary" id="btn-send">Gửi</button>
+                        </div>
+                    </div>
+                </div>
                 <ul class="pagination justify-content-center" style="display: flex; list-style: none; padding: 0;">
                     <!-- Nút Previous -->
                     <c:if test="${currentPage > 1}">

@@ -1,13 +1,29 @@
 package com.taplamweb.controller.admin;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.taplamweb.domain.Order;
+import com.taplamweb.service.OrderService;
 
 @Controller
 public class DashboardController {
+    @Autowired
+    private OrderService orderService;
+
     @GetMapping("/admin")
-    public String getDashboardPage() {
+    public String getDashboardPage(Model model) {
+        List<Order> list = this.orderService.getListOrderForDashBoard();
+        model.addAttribute("orders", list);
         return "admin/dashboard/show";
     }
 
+    @GetMapping("/admin/chat")
+    public String getChatPage() {
+        return "admin/dashboard/admin_chat";
+    }
 }
