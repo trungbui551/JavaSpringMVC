@@ -51,4 +51,17 @@
                             </form>
                         </li>
                     </ul>
+                    <script>
+                        // Lấy username từ Server và gán vào biến Global của Javascript
+                        // Lưu ý: dùng c:out hoặc expression để lấy giá trị an toàn
+                        var globalCurrentUsername = "${pageContext.request.userPrincipal.name}";
+
+                        // Nếu chưa login thì gán null hoặc chuỗi rỗng
+                        if (!globalCurrentUsername) {
+                            globalCurrentUsername = "";
+                        }
+
+                        // Cấu hình luôn email admin ở đây để dễ sửa đổi sau này
+                        var globalAdminUsername = "admin@gmail.com"; // SỬA LẠI CHO ĐÚNG DATABASE CỦA BẠN
+                    </script>
         </nav>

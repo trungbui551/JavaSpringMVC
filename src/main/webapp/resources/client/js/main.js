@@ -213,10 +213,11 @@
     // Lấy username từ server (Ví dụ Thymeleaf dùng [[${#authentication.name}]])
     // Hoặc nếu dùng JSP: var currentUsername = "${pageContext.request.userPrincipal.name}";
     // Ở đây mình giả sử bạn lấy được username rồi.
-    var currentUsername = "user_dang_login";
+    var currentUsername = (typeof globalCurrentUsername !== 'undefined') ? globalCurrentUsername : "";
 
     $(document).ready(function () {
-        // 1. Xử lý UI: Bật tắt khung chat
+
+
         $('#chat-button').click(function () {
             $('#chat-box').show();
             connect(); // Mở chat là kết nối luôn
@@ -252,8 +253,8 @@
         var content = $('#msg-input').val().trim();
         if (content && stompClient) {
             var chatMessage = {
-                senderId: currentUsername,
-                recipientId: "admins@gmail.com", // Mặc định gửi cho admin
+                sensenderId: currentUsername, // Dùng biến đã lấy động
+                recipientId: adminId,
                 content: content,
                 timestamp: new Date()
             };
