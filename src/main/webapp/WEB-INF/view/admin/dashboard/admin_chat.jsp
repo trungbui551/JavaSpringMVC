@@ -120,8 +120,10 @@
             if (selectedUser === otherParty) {
                 renderMessage(message);
             } else {
-                // Nếu không -> Highlight để báo tin mới
-                $(`#user-item-${otherParty}`).addClass('bg-warning text-dark fw-bold');
+                var el = document.getElementById("user-item-" + otherParty);
+                if (el) {
+                    $(el).addClass('bg-warning text-dark fw-bold');
+                }
             }
         }
 

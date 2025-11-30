@@ -251,9 +251,10 @@
 
     function sendMessage() {
         var content = $('#msg-input').val().trim();
+        var adminId = (typeof globalAdminUsername !== 'undefined') ? globalAdminUsername : "admins@gmail.com";
         if (content && stompClient) {
             var chatMessage = {
-                sensenderId: currentUsername, // Dùng biến đã lấy động
+                senderId: currentUsername, // Dùng biến đã lấy động
                 recipientId: adminId,
                 content: content,
                 timestamp: new Date()

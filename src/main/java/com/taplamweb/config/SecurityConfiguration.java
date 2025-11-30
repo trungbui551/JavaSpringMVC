@@ -65,7 +65,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/ws/**").authenticated()
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/ws/**") // chỉ bỏ CSRF cho WebSocket
+                        .ignoringRequestMatchers("/ws/**").ignoringRequestMatchers("/chat/**")
+
                 )
                 .sessionManagement((sessionManagement) -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
