@@ -259,7 +259,7 @@
             };
 
             // Gửi lên server
-            stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
+            stompClient.send("/app/chat/user/send", {}, JSON.stringify(chatMessage));
 
             // Hiển thị ngay tin nhắn của mình lên màn hình (cho mượt)
             showMessage(chatMessage);

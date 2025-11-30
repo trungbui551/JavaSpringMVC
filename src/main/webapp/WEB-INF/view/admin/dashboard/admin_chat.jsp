@@ -53,6 +53,7 @@
 
         // Lấy tên Admin an toàn (tránh lỗi syntax nếu rỗng)
         var currentAdminName = "${pageContext.request.userPrincipal.name}";
+        console.log("tên admin lấy được từ request: " + currentAdminName);
         if (!currentAdminName) {
             console.warn("⚠️ Không tìm thấy tên Admin từ Session, đang dùng tên giả định 'admin'");
             currentAdminName = "admin";
@@ -170,7 +171,7 @@
                 };
 
                 // Gửi lên server
-                stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
+                stompClient.send("/app/chat/admin/send", {}, JSON.stringify(chatMessage));
 
                 // Tự hiển thị tin nhắn của mình (để cảm giác nhanh hơn)
                 handleIncomingMessage(chatMessage);

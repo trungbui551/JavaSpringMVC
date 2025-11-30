@@ -64,7 +64,9 @@ public class SecurityConfiguration {
                         .permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/ws/**").authenticated()
                         .anyRequest().authenticated())
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/ws/**") // chỉ bỏ CSRF cho WebSocket
+                )
                 .sessionManagement((sessionManagement) -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                         .invalidSessionUrl("/logout?expired")
