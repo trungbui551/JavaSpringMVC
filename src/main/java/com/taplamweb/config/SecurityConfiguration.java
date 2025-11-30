@@ -60,9 +60,9 @@ public class SecurityConfiguration {
 
                                 "/userConfirm",
                                 "/handle-password",
-                                "/register")
+                                "/register", "/ws/**", "/sockjs-node/**")
                         .permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/ws/**").authenticated()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/ws/**").ignoringRequestMatchers("/chat/**")

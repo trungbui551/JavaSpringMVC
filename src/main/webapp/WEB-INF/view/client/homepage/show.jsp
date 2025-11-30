@@ -116,6 +116,7 @@
             </head>
 
             <body>
+                <script>var currentUsername = "${pageContext.request.userPrincipal != null ? pageContext.request.userPrincipal.name : 'guest_' + Math.random().toString(36).substr(2,9)}";</script>
                 <c:if test="${not empty message}">
                     <script>
                         alert("${message}");

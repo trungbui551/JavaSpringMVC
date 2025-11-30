@@ -1,183 +1,129 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
     <jsp:include page="../layout/header.jsp" />
 
-    <div id="layoutSidenav">
-        <jsp:include page="../layout/sidebar.jsp" />
+    <div class="container-fluid" style="padding-top: 80px; padding-bottom: 50px;">
+        <div class="row">
+            <!-- Danh sách người dùng -->
+            <div class="col-md-3">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-light fw-bold">Tin nhắn đến</div>
+                    <ul class="list-group list-group-flush" id="user-list" style="height: 400px; overflow-y: auto;">
+                    </ul>
+                </div>
+            </div>
 
-        <div id="layoutSidenav_content">
-            <main class="container-fluid" style="padding-top: 80px; padding-bottom: 50px;">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="card shadow-sm">
-                            <div class="card-header bg-light fw-bold">Tin nhắn đến</div>
-                            <ul class="list-group list-group-flush" id="user-list"
-                                style="height: 400px; overflow-y: auto;">
-                            </ul>
-                        </div>
+            <!-- Khu vực chat -->
+            <div class="col-md-9">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        Chat với: <span id="current-chat-user" class="fw-bold">...</span>
                     </div>
-
-                    <div class="col-md-9">
-                        <div class="card shadow-sm">
-                            <div class="card-header bg-primary text-white">
-                                Chat với: <span id="current-chat-user" class="fw-bold">...</span>
-                            </div>
-
-                            <div class="card-body" id="admin-message-area"
-                                style="height: 400px; overflow-y: auto; background: #f1f2f6;">
-                                <div class="text-center text-muted mt-5">
-                                    <small>Chưa chọn người dùng nào</small>
-                                </div>
-                            </div>
-
-                            <div class="card-footer">
-                                <div class="input-group">
-                                    <input type="text" id="admin-input" class="form-control"
-                                        placeholder="Chọn user để chat..." disabled>
-                                    <button class="btn btn-primary" id="admin-btn-send" disabled>Gửi</button>
-                                </div>
-                            </div>
+                    <div class="card-body" id="admin-message-area"
+                        style="height: 400px; overflow-y: auto; background: #f1f2f6;">
+                        <div class="text-center text-muted mt-5"><small>Chưa chọn người dùng nào</small></div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="input-group">
+                            <input type="text" id="admin-input" class="form-control" placeholder="Nhập tin nhắn..."
+                                disabled>
+                            <button class="btn btn-primary" id="admin-btn-send" disabled>Gửi</button>
                         </div>
                     </div>
                 </div>
-            </main>
+            </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-
     <script>
-        // 3. LOGIC CHAT
-        console.log("🚀 Script Chat đã khởi động...");
-
-        // Lấy tên Admin an toàn (tránh lỗi syntax nếu rỗng)
-        var currentAdminName = "${pageContext.request.userPrincipal.name}";
-        console.log("tên admin lấy được từ request: " + currentAdminName);
-        if (!currentAdminName) {
-            console.warn("⚠️ Không tìm thấy tên Admin từ Session, đang dùng tên giả định 'admin'");
-            currentAdminName = "admin";
+        function encodeId(str) {
+            return str.replace(/[^a-zA-Z0-9]/g, '_');
         }
-
-        var stompClient = null;
-        var selectedUser = null;
-        var userHistory = {};
 
         $(document).ready(function () {
-            console.log("🌐 DOM Ready - Bắt đầu kết nối...");
-            connectAdmin();
-
             $('#admin-btn-send').click(sendReply);
-            $('#admin-input').keypress(function (e) { if (e.which == 13) sendReply(); });
+            $('#admin-input').keypress(e => { if (e.which === 13) sendReply(); });
         });
 
-        function connectAdmin() {
-            // Kết nối tới endpoint /ws mà bạn đã config trong Spring Boot
-            var socket = new SockJS('/ws');
-            stompClient = Stomp.over(socket);
-
-            // Tắt debug nếu muốn console gọn: stompClient.debug = null; 
-
-            stompClient.connect({}, function (frame) {
-                console.log("✅ Đã kết nối Socket thành công! User: " + currentAdminName);
-
-                // Đăng ký nhận tin nhắn
-                stompClient.subscribe('/user/queue/messages', function (payload) {
-                    console.log("📩 Có tin nhắn mới!");
-                    var message = JSON.parse(payload.body);
-                    handleIncomingMessage(message);
-                }, true);
-
-            }, function (error) {
-                console.error("❌ Lỗi kết nối Socket:", error);
-                alert("Không thể kết nối tới Chat Server. Hãy tải lại trang.");
-            });
-        }
-
         function handleIncomingMessage(message) {
-            // Xác định đối phương là ai
-            var otherParty = (message.senderId === currentAdminName) ? message.recipientId : message.senderId;
+            const otherParty = (message.senderId === currentAdminName) ? message.recipientId : message.senderId;
+            const encodedId = encodeId(otherParty);
 
-            // Lưu vào lịch sử tạm
             if (!userHistory[otherParty]) {
                 userHistory[otherParty] = [];
-                var userItem = document.getElementById("user-item-" + otherParty);
-                console.log("người nhận: " + otherParty);
-                // Nếu chưa có trong danh sách thì thêm vào cột trái
-                if (!userItem) {
-                    var itemHtml = `<li class="list-group-item list-group-item-action" 
-                                    id="user-item-${otherParty}" 
-                                    style="cursor:pointer" 
-                                    onclick="selectUser('${otherParty}')">
-                                    <i class="bi bi-person-circle"></i> ${otherParty}
-                                </li>`;
-                    $('#user-list').append(itemHtml);
-                }
+                const itemHtml = `
+                <li class="list-group-item list-group-item-action" 
+                    id="user-item-${encodedId}" style="cursor:pointer"
+                    onclick="selectUser('${otherParty}')">
+                    <i class="bi bi-person-circle"></i> ${otherParty}
+                </li>`;
+                $('#user-list').append(itemHtml);
             }
+
             userHistory[otherParty].push(message);
 
-            // Nếu đang chat với người này -> Render luôn
+            if (!selectedUser) {
+                selectUser(otherParty);
+            }
+
             if (selectedUser === otherParty) {
-                renderMessage(message);
+                showMessage(message);
             } else {
-                var el = document.getElementById("user-item-" + otherParty);
-                if (el) {
-                    $(el).addClass('bg-warning text-dark fw-bold');
-                }
+                $('#user-item-' + encodedId).addClass('bg-warning fw-bold');
             }
         }
 
         function selectUser(username) {
             selectedUser = username;
             $('#current-chat-user').text(username);
-
-            // Mở khóa nhập liệu
-            $('#admin-input').prop('disabled', false);
-            $('#admin-btn-send').prop('disabled', false);
+            $('#admin-input, #admin-btn-send').prop('disabled', false);
             $('#admin-input').focus();
+            $('#user-item-' + encodeId(username)).removeClass('bg-warning fw-bold');
+            $('#admin-message-area').html('');
 
-            // Xóa highlight
-            var el = document.getElementById("user-item-" + username);
-            if (el) $(el).removeClass('bg-warning text-dark fw-bold')
-            // Load lại tin nhắn cũ
-            $('#admin-message-area').empty();
             if (userHistory[username]) {
-                userHistory[username].forEach(renderMessage);
+                userHistory[username].forEach(showMessage);
             }
         }
 
-        function renderMessage(message) {
-            var isAdmin = (message.senderId === currentAdminName);
-            var align = isAdmin ? 'text-end' : 'text-start';
-            var bg = isAdmin ? 'bg-primary text-white' : 'bg-white border text-dark';
+        function showMessage(message) {
+            const messageArea = $('#admin-message-area');
+            const isAdmin = (message.senderId === currentAdminName);
+            const align = isAdmin ? 'text-end' : 'text-start';
+            const bg = isAdmin ? 'bg-primary text-white' : 'bg-light text-dark border';
+            const sender = isAdmin ? 'Admin' : message.senderId;
+            const time = message.timestamp ? new Date(message.timestamp).toLocaleTimeString() : '';
 
-            var html = `
+            const html = `
             <div class="mb-2 ${align}">
-                <div class="d-inline-block p-2 rounded shadow-sm ${bg}" style="max-width: 75%;">
+                <div class="d-inline-block p-2 rounded ${bg}" style="max-width: 75%;">
                     ${message.content}
                 </div>
-            </div>`;
+                <div class="small text-muted" style="font-size: 10px;">
+                    ${sender} • ${time}
+                </div>
+            </div>
+        `;
 
-            var area = $('#admin-message-area');
-            area.append(html);
-            area.scrollTop(area[0].scrollHeight);
+            messageArea.append(html);
+            messageArea.scrollTop(messageArea[0].scrollHeight);
         }
 
         function sendReply() {
-            var content = $('#admin-input').val().trim();
-            if (content && selectedUser) {
-                var chatMessage = {
-                    senderId: currentAdminName,
-                    recipientId: selectedUser,
-                    content: content
-                };
-
-                // Gửi lên server
-                stompClient.send("/app/chat/admin/send", {}, JSON.stringify(chatMessage));
-
-                // Tự hiển thị tin nhắn của mình (để cảm giác nhanh hơn)
-                handleIncomingMessage(chatMessage);
-                $('#admin-input').val('');
+            const content = $('#admin-input').val().trim();
+            if (!content || !selectedUser || !stompClient || !stompClient.connected) {
+                console.warn("WebSocket chưa sẵn sàng để gửi tin nhắn.");
+                return;
             }
+
+            const chatMessage = {
+                senderId: currentAdminName,
+                recipientId: selectedUser,
+                content: content,
+                timestamp: new Date().toISOString()
+            };
+
+            stompClient.send("/app/chat/admin/send", {}, JSON.stringify(chatMessage));
+            handleIncomingMessage(chatMessage);
+            $('#admin-input').val('');
         }
     </script>

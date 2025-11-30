@@ -210,10 +210,7 @@
     }
 
     var stompClient = null;
-    // Lấy username từ server (Ví dụ Thymeleaf dùng [[${#authentication.name}]])
-    // Hoặc nếu dùng JSP: var currentUsername = "${pageContext.request.userPrincipal.name}";
-    // Ở đây mình giả sử bạn lấy được username rồi.
-    var currentUsername = (typeof globalCurrentUsername !== 'undefined') ? globalCurrentUsername : "";
+
 
     $(document).ready(function () {
 
