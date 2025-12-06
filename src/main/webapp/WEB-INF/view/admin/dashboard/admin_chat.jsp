@@ -125,12 +125,12 @@
             console.log("message.senderId type:", typeof message.senderId, message.senderId);
             console.log("message.content type:", typeof message.content, message.content);
             const html = `
-        <div class="mb-2 ${align}">
-            <div class="d-inline-block p-2 rounded ${bg}" style="max-width: 75%;">
-                ${message.content}
+        <div class="mb-2 \${align}">
+            <div class="d-inline-block p-2 rounded \${bg}" style="max-width: 75%;">
+                \${message.content}
             </div>
             <div class="small text-muted" style="font-size: 10px;">
-                ${sender} • Hello ? ${time}
+                \${sender} •  \${time}
             </div>
         </div>
         `;
