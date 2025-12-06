@@ -28,8 +28,9 @@
             }
 
             function connectAdminWebSocket() {
+                console.log("Connected method");
                 if (stompClient) return; // tránh kết nối lại
-
+                console.log("Connected method --- ");
                 const socket = new SockJS('/ws');
                 stompClient = Stomp.over(socket);
                 stompClient.debug = () => { };
@@ -37,7 +38,9 @@
                 stompClient.connect({}, () => {
                     stompClient.subscribe('/user/queue/messages', payload => {
                         const message = JSON.parse(payload.body);
+                        console.log(payload.body);
                         if (typeof handleIncomingMessage === 'function') {
+                            console.log("message: " + message.body);
                             handleIncomingMessage(message); // gọi hàm ở admin_chat.jsp
                         } else {
                             console.log("Tin nhắn đến:", message);
