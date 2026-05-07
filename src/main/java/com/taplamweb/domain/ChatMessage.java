@@ -30,4 +30,5 @@ public class ChatMessage {
     // mới
     @Enumerated(EnumType.STRING)
     private MessageStatus status;
+
 }

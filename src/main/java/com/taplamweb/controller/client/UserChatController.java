@@ -15,7 +15,7 @@ import com.taplamweb.service.ChatService;
 import com.taplamweb.service.UserService;
 
 @Controller
-public class UsercChatController {
+public class UserChatController {
 
     ChatMessage chatMessage;
     @Autowired

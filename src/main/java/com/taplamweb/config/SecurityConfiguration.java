@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -49,18 +50,29 @@ public class SecurityConfiguration {
         return new CustomSuccessHandler();
     }
 
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers(
+                "/favicon.ico",
+                "/resources/**", // Cho phép toàn bộ thư mục resources
+                "/css/**",
+                "/js/**",
+                "/images/**",
+                "/client/**");
+    }
+
     // Bước 2: update security config
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE).permitAll()
-                        .requestMatchers("/", "login", "/client/**", "/css/**", "/product/**", "/js/**", "/images/**",
+                        .requestMatchers("/", "/login", "/client/**", "/css/**", "/product/**", "/js/**", "/images/**",
                                 "/regitrationConfirm", "/badUser", "/forgotPassword", "/resetPassword", "/emailCheck",
-
+                                "/favicon.ico", "/error",
                                 "/userConfirm",
                                 "/handle-password",
-                                "/register", "/ws/**", "/sockjs-node/**")
+                                "/register", "/ws/**", "/sockjs-node/**", "/chat/**")
                         .permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
